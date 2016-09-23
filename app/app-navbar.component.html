@@ -1,0 +1,49 @@
+<nav *ngIf="user" class="navbar navbar-dark navbar-fixed-top bg-inverse">
+    <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+        aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    <a class="navbar-brand" href="#">Project name</a>
+    <nav id="navbar">
+        <ul class="nav navbar-nav pull-xs-left">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item dropdown" #usersMenu>
+                <a class="nav-link dropdown-toggle" href="#" (click)="usersMenu.classList.toggle('open')">Users</a>
+                <div class="dropdown-menu  dropdown-menu-right" (mouseleave)="usersMenu.classList.remove('open')">
+                    <a class="dropdown-item" href="#">Management</a>
+                    <a class="dropdown-item" href="#">New</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Type a search term...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav pull-xs-right">
+            <li class="nav-item dropdown" #profileMenu>
+                <a class="nav-link dropdown-toggle" href="#" (mouseenter)="profileMenu.classList.add('open')">{{user.name}}</a>
+                <div class="dropdown-menu  dropdown-menu-right" (mouseleave)="profileMenu.classList.remove('open')">
+                    <a class="dropdown-item" href="#">Profile</a>
+                    <a class="dropdown-item" href="#">Log out</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Help</a>
+                </div>
+            </li>
+        </ul>
+
+    </nav>
+</nav>

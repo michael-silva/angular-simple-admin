@@ -1,0 +1,24 @@
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { Authenticator } from '../../shared/authenticator.service';
+
+@Component({
+    selector: 'login',
+    templateUrl: 'app/auth/login/login.component.html'
+})
+export class LoginComponent { 
+    model: any = { login: '', password: '' };
+    errorMessage: string;
+
+    constructor(private authenticator: Authenticator, private router: Router) { }
+
+    doLogin() {
+        this.authenticator.authenticate(this.model.login, this.model.password)
+            .then(() => {
+                this.router.navigate([this.authenticator.redirectUrl]);
+            }).catch(error => {
+                this.errorMessage = error.message;
+            })
+    }
+}
