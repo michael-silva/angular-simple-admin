@@ -22,7 +22,7 @@ import { UsersInMemoryDataService }  from './shared/users-in-memory-data.service
         CommonModule,
         FormsModule,
         HttpModule,
-        InMemoryWebApiModule.forRoot(UsersInMemoryDataService), 
+        InMemoryWebApiModule.forRoot(UsersInMemoryDataService, { delay: 500 }), 
         usersRouting],
     declarations: [
         UsersComponent,

@@ -9,39 +9,47 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var UserListComponent = (function () {
-    function UserListComponent() {
-        this.table = {
-            columns: [{ name: 'Id' }, { name: 'Name' }, { name: 'Age' }, { name: 'Date' }],
-            data: [
-                { Id: 1, Name: 'Admin', Age: 24, Date: '21/04/1996' },
-                { Id: 1, Name: 'Finance', Age: 26, Date: '21/04/1996' },
-                { Id: 1, Name: 'Marketing', Age: 21, Date: '21/04/1996' },
-                { Id: 1, Name: 'User', Age: 34, Date: '21/04/1996' },
-                { Id: 1, Name: 'Admin', Age: 40, Date: '21/04/1996' },
-                { Id: 1, Name: 'Finance', Age: 28, Date: '21/04/1996' },
-                { Id: 1, Name: 'Simple', Age: 32, Date: '21/04/1996' },
-                { Id: 1, Name: 'Simple', Age: 36, Date: '21/04/1996' },
-                { Id: 1, Name: 'User', Age: 42, Date: '21/04/1996' },
-                { Id: 1, Name: 'Admin', Age: 32, Date: '21/04/1996' },
-                { Id: 1, Name: 'Admin', Age: 26, Date: '21/04/1996' },
-                { Id: 1, Name: 'Finance', Age: 28, Date: '21/04/1996' },
-                { Id: 1, Name: 'Marketing', Age: 30, Date: '21/04/1996' },
-                { Id: 1, Name: 'Finance', Age: 24, Date: '21/04/1996' },
-                { Id: 1, Name: 'Simple', Age: 21, Date: '21/04/1996' },
-                { Id: 1, Name: 'User', Age: 20, Date: '21/04/1996' },
-                { Id: 1, Name: 'Admin', Age: 23, Date: '21/04/1996' },
-                { Id: 1, Name: 'Simple', Age: 29, Date: '21/04/1996' },
-                { Id: 1, Name: 'Admin', Age: 24, Date: '21/04/1996' }]
-        };
-        this.keys = Object.keys(this.table.data[0]);
+var http_1 = require('@angular/http');
+var TableSearch = (function () {
+    function TableSearch() {
     }
+    return TableSearch;
+}());
+var TableColumn = (function () {
+    function TableColumn() {
+    }
+    return TableColumn;
+}());
+var TableModel = (function () {
+    function TableModel() {
+        this.page = 0;
+        this.length = 10;
+    }
+    return TableModel;
+}());
+var TableBuilder = (function () {
+    function TableBuilder() {
+    }
+    return TableBuilder;
+}());
+var UserListComponent = (function () {
+    function UserListComponent(http) {
+        this.http = http;
+    }
+    UserListComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.http.get('api/users/?page=0')
+            .map(function (response) { return response.json().data[0]; })
+            .toPromise()
+            .then(function (data) { return _this.table = data; })
+            .catch(function (e) { return console.log(e); });
+    };
     UserListComponent = __decorate([
         core_1.Component({
-            selector: 'users',
+            selector: 'user-list',
             templateUrl: 'app/users/user-list/user-list.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http])
     ], UserListComponent);
     return UserListComponent;
 }());

@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 
 // Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
-import { InMemoryDataService }  from './shared/in-memory-data.service';
+//import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
+//import { InMemoryDataService }  from './shared/in-memory-data.service';
 
 import { ROUTING }  from './app.routing';
 
@@ -21,7 +21,7 @@ import { AuthGuard }  from './shared/auth-guard.service';
 
 @NgModule({
   imports: [ 
-    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 500 }),
+    //InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 500 }),
     BrowserModule, 
     HttpModule,
     ROUTING ],

@@ -30,7 +30,7 @@ var UsersModule = (function () {
                 common_1.CommonModule,
                 forms_1.FormsModule,
                 http_1.HttpModule,
-                angular2_in_memory_web_api_1.InMemoryWebApiModule.forRoot(users_in_memory_data_service_1.UsersInMemoryDataService),
+                angular2_in_memory_web_api_1.InMemoryWebApiModule.forRoot(users_in_memory_data_service_1.UsersInMemoryDataService, { delay: 500 }),
                 users_routing_1.usersRouting],
             declarations: [
                 users_component_1.UsersComponent,

@@ -12,8 +12,8 @@ var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var http_1 = require('@angular/http');
 // Imports for loading & configuring the in-memory web api
-var angular2_in_memory_web_api_1 = require('angular2-in-memory-web-api');
-var in_memory_data_service_1 = require('./shared/in-memory-data.service');
+//import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
+//import { InMemoryDataService }  from './shared/in-memory-data.service';
 var app_routing_1 = require('./app.routing');
 var app_component_1 = require('./app.component');
 var app_navbar_component_1 = require('./app-navbar.component');
@@ -30,7 +30,7 @@ var AppModule = (function () {
     AppModule = __decorate([
         core_1.NgModule({
             imports: [
-                angular2_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService, { delay: 500 }),
+                //InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 500 }),
                 platform_browser_1.BrowserModule,
                 http_1.HttpModule,
                 app_routing_1.ROUTING],

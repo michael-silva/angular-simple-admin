@@ -1,36 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Http } from '@angular/http';
 
-@Component({
-    selector: 'users',
-    templateUrl: 'app/users/user-list/user-list.component.html'
-})
-export class UserListComponent {
-    keys: string[];
-    table = {
-        columns: [{ name: 'Id' }, { name: 'Name' }, { name: 'Age' },{ name: 'Date' }],
-        data: [
-            { Id: 1, Name: 'Admin', Age: 24, Date: '21/04/1996' },
-            { Id: 1, Name: 'Finance', Age: 26, Date: '21/04/1996' },
-            { Id: 1, Name: 'Marketing', Age: 21, Date: '21/04/1996' },
-            { Id: 1, Name: 'User', Age: 34, Date: '21/04/1996' },
-            { Id: 1, Name: 'Admin', Age: 40, Date: '21/04/1996' },
-            { Id: 1, Name: 'Finance', Age: 28, Date: '21/04/1996' },
-            { Id: 1, Name: 'Simple', Age: 32, Date: '21/04/1996' },
-            { Id: 1, Name: 'Simple', Age: 36, Date: '21/04/1996' },
-            { Id: 1, Name: 'User', Age: 42, Date: '21/04/1996' },
-            { Id: 1, Name: 'Admin', Age: 32, Date: '21/04/1996' },
-            { Id: 1, Name: 'Admin', Age: 26, Date: '21/04/1996' },
-            { Id: 1, Name: 'Finance', Age: 28, Date: '21/04/1996' },
-            { Id: 1, Name: 'Marketing', Age: 30, Date: '21/04/1996' },
-            { Id: 1, Name: 'Finance', Age: 24, Date: '21/04/1996' },
-            { Id: 1, Name: 'Simple', Age: 21, Date: '21/04/1996' },
-            { Id: 1, Name: 'User', Age: 20, Date: '21/04/1996' },
-            { Id: 1, Name: 'Admin', Age: 23, Date: '21/04/1996' },
-            { Id: 1, Name: 'Simple', Age: 29, Date: '21/04/1996' },
-            { Id: 1, Name: 'Admin', Age: 24, Date: '21/04/1996' }]
-    };
+class TableSearch {
+    term: string;
+    pattern: string;
+}
+
+class TableColumn {
+    title: string;
+    data: string;
+    orderable: boolean;
+    searchable: boolean;
+}
+
+class TableModel {
+    search: TableSearch;
+    page: number = 0;
+    length: number = 10;
+    total: number;
+    columns: TableColumn[];
+    data: Array<any>;
 
     constructor() {
-        this.keys = Object.keys(this.table.data[0]);
+
+    }
+}
+
+class TableBuilder {
+
+}
+
+@Component({
+    selector: 'user-list',
+    templateUrl: 'app/users/user-list/user-list.component.html'
+})
+export class UserListComponent implements OnInit {
+    table: TableModel;
+
+    constructor(private http: Http) { }
+
+    ngOnInit() {
+        this.http.get('api/users/?page=0')
+            .map(response => response.json().data[0] as TableModel)
+            .toPromise()
+            .then(data => this.table = data)
+            .catch(e => console.log(e));
     }
 }

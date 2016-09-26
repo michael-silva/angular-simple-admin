@@ -1,10 +1,10 @@
 <h4>Users Management</h4>
 <hr>
-<table class="table table-bordered table-hover">
+<table *ngIf="table" class="table table-bordered table-hover">
     <thead class="thead-inverse">
         <tr>
             <th width="150px">Ações</th>
-            <th *ngFor="let col of table.columns">{{col.name}}</th>
+            <th *ngFor="let col of table.columns">{{col.title}}</th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +14,7 @@
                 <button type="button" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i></button>
                 <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-close"></i></button>
             </th>
-            <td *ngFor="let key of keys">{{row[key]}}</td>
+            <td *ngFor="let col of table.columns">{{row[col.data]}}</td>
         </tr>
     </tbody>
 </table>
