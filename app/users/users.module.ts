@@ -15,14 +15,14 @@ import { UserTabFormComponent } from './user-tabform/user-tabform.component';
 
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
-//import { InMemoryDataService }  from '../shared/in-memory-data.service';
+import { UsersInMemoryDataService }  from './shared/users-in-memory-data.service';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         HttpModule,
-        //InMemoryWebApiModule.forRoot(InMemoryDataService), 
+        InMemoryWebApiModule.forRoot(UsersInMemoryDataService), 
         usersRouting],
     declarations: [
         UsersComponent,

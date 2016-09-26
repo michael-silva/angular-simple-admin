@@ -9,10 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
 var BehaviorSubject_1 = require('rxjs/BehaviorSubject');
 require('rxjs/add/operator/map');
+require('rxjs/add/operator/toPromise');
+var config_service_1 = require('../shared/config.service');
 var Authenticator = (function () {
-    function Authenticator() {
+    function Authenticator(http, config) {
+        this.http = http;
+        this.config = config;
+        this.authUrl = 'auth';
         this.userObservable = new BehaviorSubject_1.BehaviorSubject(null);
         this.redirectUrl = '';
         var storage = localStorage.getItem('user');
@@ -70,7 +76,7 @@ var Authenticator = (function () {
     };
     Authenticator = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http, config_service_1.ConfigService])
     ], Authenticator);
     return Authenticator;
 }());

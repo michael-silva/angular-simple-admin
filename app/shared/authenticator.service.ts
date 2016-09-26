@@ -1,18 +1,24 @@
 import { Injectable }      from '@angular/core';
+import { Headers, RequestOptions, Http }      from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/toPromise'
 
 import { User } from '../users/shared/user.model';
 import { NewPasswordModel } from '../auth/shared/newpass.model';
 
+import { ConfigService } from '../shared/config.service';
+
 @Injectable()
 export class Authenticator {
+    private authUrl:string = 'auth';
     private userObservable: BehaviorSubject<User> = new BehaviorSubject<User>(null);
     public redirectUrl: string = '';
 
-    constructor() {
+    constructor(private http: Http, private config: ConfigService) {
         let storage = localStorage.getItem('user');
         if(storage) {
             let user = JSON.parse(storage) as User;

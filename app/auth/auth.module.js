@@ -17,7 +17,6 @@ var auth_routing_1 = require('./auth.routing');
 var login_component_1 = require('./login/login.component');
 var forgot_pass_component_1 = require('./forgot-pass/forgot-pass.component');
 var recover_pass_component_1 = require('./recover-pass/recover-pass.component');
-//import { InMemoryDataService }  from '../shared/in-memory-data.service';
 var AuthModule = (function () {
     function AuthModule() {
     }
@@ -27,7 +26,6 @@ var AuthModule = (function () {
                 common_1.CommonModule,
                 forms_1.FormsModule,
                 http_1.HttpModule,
-                //InMemoryWebApiModule.forRoot(InMemoryDataService), 
                 auth_routing_1.authRouting],
             declarations: [
                 auth_component_1.AuthComponent,

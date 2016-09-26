@@ -10,6 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
+var http_1 = require('@angular/http');
+// Imports for loading & configuring the in-memory web api
+var angular2_in_memory_web_api_1 = require('angular2-in-memory-web-api');
+var in_memory_data_service_1 = require('./shared/in-memory-data.service');
 var app_routing_1 = require('./app.routing');
 var app_component_1 = require('./app.component');
 var app_navbar_component_1 = require('./app-navbar.component');
@@ -18,13 +22,18 @@ var help_component_1 = require('./help/help.component');
 var not_found_component_1 = require('./errors/not-found/not-found.component');
 var authenticator_service_1 = require('./shared/authenticator.service');
 var dialog_service_1 = require('./shared/dialog.service');
+var config_service_1 = require('./shared/config.service');
 var auth_guard_service_1 = require('./shared/auth-guard.service');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, app_routing_1.ROUTING],
+            imports: [
+                angular2_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_service_1.InMemoryDataService, { delay: 500 }),
+                platform_browser_1.BrowserModule,
+                http_1.HttpModule,
+                app_routing_1.ROUTING],
             declarations: [
                 app_component_1.AppComponent,
                 app_navbar_component_1.AppNavbarComponent,
@@ -32,6 +41,7 @@ var AppModule = (function () {
                 help_component_1.HelpComponent,
                 not_found_component_1.NotFoundComponent],
             providers: [
+                config_service_1.ConfigService,
                 dialog_service_1.DialogService,
                 authenticator_service_1.Authenticator,
                 auth_guard_service_1.AuthGuard

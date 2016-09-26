@@ -18,7 +18,9 @@ var user_list_component_1 = require('./user-list/user-list.component');
 var user_profile_component_1 = require('./user-profile/user-profile.component');
 var user_wizzard_component_1 = require('./user-wizzard/user-wizzard.component');
 var user_tabform_component_1 = require('./user-tabform/user-tabform.component');
-//import { InMemoryDataService }  from '../shared/in-memory-data.service';
+// Imports for loading & configuring the in-memory web api
+var angular2_in_memory_web_api_1 = require('angular2-in-memory-web-api');
+var users_in_memory_data_service_1 = require('./shared/users-in-memory-data.service');
 var UsersModule = (function () {
     function UsersModule() {
     }
@@ -28,7 +30,7 @@ var UsersModule = (function () {
                 common_1.CommonModule,
                 forms_1.FormsModule,
                 http_1.HttpModule,
-                //InMemoryWebApiModule.forRoot(InMemoryDataService), 
+                angular2_in_memory_web_api_1.InMemoryWebApiModule.forRoot(users_in_memory_data_service_1.UsersInMemoryDataService),
                 users_routing_1.usersRouting],
             declarations: [
                 users_component_1.UsersComponent,

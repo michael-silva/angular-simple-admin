@@ -9,19 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-var Authenticator = (function () {
-    function Authenticator(http) {
-        this.http = http;
+var ConfigService = (function () {
+    function ConfigService() {
+        this.type = ConfigType.inMemory;
+        switch (this.type) {
+            case ConfigType.inMemory:
+                this.baseUrl = '';
+                break;
+        }
     }
-    Authenticator.prototype.getUser = function (guid) {
-        return Promise.resolve({ name: 'Some user', token: '1sa12sa', guid: guid });
-    };
-    Authenticator = __decorate([
+    ConfigService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
-    ], Authenticator);
-    return Authenticator;
+        __metadata('design:paramtypes', [])
+    ], ConfigService);
+    return ConfigService;
 }());
-exports.Authenticator = Authenticator;
-//# sourceMappingURL=user.service.js.map
+exports.ConfigService = ConfigService;
+var ConfigType;
+(function (ConfigType) {
+    ConfigType[ConfigType["inMemory"] = 0] = "inMemory";
+    ConfigType[ConfigType["Development"] = 1] = "Development";
+    ConfigType[ConfigType["Production"] = 2] = "Production";
+})(ConfigType || (ConfigType = {}));
+//# sourceMappingURL=config.service.js.map

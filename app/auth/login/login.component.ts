@@ -23,6 +23,6 @@ export class LoginComponent {
                 this.router.navigate([this.authenticator.redirectUrl]);
             }).catch(error => {
                 this.errorMessage = error.message;
-            })
+            });
     }
 }
