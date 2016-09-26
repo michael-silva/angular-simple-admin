@@ -1,18 +1,19 @@
-<div class="card forgot-pass">
-    <div class="card-header">
-        <h2>Forgot your pass?</h2>
-    </div>
-    <div class="card-block">
-        <form class="form">
-            <div class="form-group">
-                <label for="email">What's your email?</label>
-                <input type="email" id="email" name="email" [(ngModel)]="email" class="form-control" placeholder="your.email@domain.com" required autofocus>
+<div class="card card-block forgot-pass">
+    <h3>Forgot your pass?</h3>
+    <hr>
+    <form (submit)="requestRecover()">
+        <div class="form-group" [class.has-danger]="emailInput.invalid && emailInput.touched">
+            <label for="email">What's your email?</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-at"></i></span>
+                <input type="email" id="email" name="email" #emailInput="ngModel" [(ngModel)]="email" class="form-control" placeholder="your.email@domain.com" required autofocus>
             </div>
-            <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
-            <div class="form-group text-md-right">
-                <a href="#" routerLink="/auth">Back to login page</a>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Recover password</button>
-        </form>
-    </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+        <div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+        <div class="form-group text-md-right">
+            <a href="#" routerLink="/auth">Back to login page</a>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Recover password</button>
+    </form>
 </div>

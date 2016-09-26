@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     constructor(private authenticator: Authenticator, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if (this.authenticator.isAuthenticated()) return true;
+        if (!!this.authenticator.userAuthenticated) return true;
 
         this.redirectAuth(state.url);
 
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
     canLoad(route: Route): boolean {
         let url = `/${route.path}`;
-        let isAuth = this.authenticator.isAuthenticated();
+        let isAuth = !!this.authenticator.userAuthenticated;
 
         if(!isAuth  && url !== this.authRoute) {
             this.redirectAuth(url);

@@ -16,7 +16,7 @@ var ROUTES = [{
                 component: forgot_pass_component_1.ForgotPassComponent
             },
             {
-                path: 'recover-pass',
+                path: 'recover-pass/:code',
                 component: recover_pass_component_1.RecoverPassComponent
             }]
     }];

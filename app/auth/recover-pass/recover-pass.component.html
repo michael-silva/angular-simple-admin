@@ -1,18 +1,20 @@
-<div class="card recover-pass">
-    <div class="card-header">
-        <h2>Enter a new password</h2>
-    </div>
-    <div class="card-block">
-        <form class="form">
-            <div class="form-group">
-                <label for="inputPassword">New Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-            </div>
-            <div class="form-group">
-                <label for="inputConfPassword">Confirm Password</label>
-                <input type="password" id="inputConfPassword" class="form-control" placeholder="Confirm Password" required="">
-            </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Save Password</button>
-        </form>
-    </div>
+<div class="card card-block recover-pass">
+    <h3>{{userName}}</h3>
+    <hr>
+    <div class="alert alert-danger" *ngIf="invalidCodeMessage">{{invalidCodeMessage}}</div>
+    <form [hidden]="invalidCodeMessage" (submit)="saveNewPassword()">
+        <div class="form-group">
+            <h4 class="form-title">Enter with a new password</h4>
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-danger': pass.invalid && pass.touched }">
+            <label for="password">New Password</label>
+            <input type="password" id="password" name="password" #pass="ngModel" [(ngModel)]="model.password" class="form-control" placeholder="Password" required minlength="6">
+        </div>
+        <div class="form-group" [ngClass]="{ 'has-danger': conf.invalid && conf.touched }">
+            <label for="confirm">Confirm Password</label>
+            <input type="password" id="confirm" name="confirm" #conf="ngModel" [(ngModel)]="model.confirm" class="form-control" placeholder="Confirm Password" required >
+        </div>
+        <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Save Password</button>
+    </form>
 </div>

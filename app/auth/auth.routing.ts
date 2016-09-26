@@ -18,7 +18,7 @@ const ROUTES: Routes = [{
                 component: ForgotPassComponent
             }, 
             {
-                path: 'recover-pass',
+                path: 'recover-pass/:code',
                 component: RecoverPassComponent
             }]
 }];

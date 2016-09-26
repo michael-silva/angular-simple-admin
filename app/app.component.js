@@ -9,15 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var authenticator_service_1 = require('./shared/authenticator.service');
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(authenticator) {
+        this.authenticator = authenticator;
     }
+    AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.isAuthenticated = !!this.authenticator.userAuthenticated;
+        this.authenticator.isAuthenticated().subscribe(function (isAuth) { return _this.isAuthenticated = isAuth; });
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
             templateUrl: './app/app.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [authenticator_service_1.Authenticator])
     ], AppComponent);
     return AppComponent;
 }());

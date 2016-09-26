@@ -12,6 +12,9 @@ var core_1 = require('@angular/core');
 var NotFoundComponent = (function () {
     function NotFoundComponent() {
     }
+    NotFoundComponent.prototype.goBack = function () {
+        history.back();
+    };
     NotFoundComponent = __decorate([
         core_1.Component({
             selector: 'not-found',

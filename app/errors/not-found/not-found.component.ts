@@ -4,4 +4,8 @@ import { Component } from '@angular/core';
     selector: 'not-found',
     templateUrl: 'app/errors/not-found/not-found.component.html'
 })
-export class NotFoundComponent { }
+export class NotFoundComponent { 
+    goBack() {
+        history.back();
+    }
+}

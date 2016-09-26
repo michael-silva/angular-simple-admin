@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AuthModel } from '../shared/auth.model';
+
 import { Authenticator } from '../../shared/authenticator.service';
 
 @Component({
@@ -8,10 +10,12 @@ import { Authenticator } from '../../shared/authenticator.service';
     templateUrl: 'app/auth/login/login.component.html'
 })
 export class LoginComponent { 
-    model: any = { login: '', password: '' };
+    model: AuthModel;
     errorMessage: string;
 
-    constructor(private authenticator: Authenticator, private router: Router) { }
+    constructor(private authenticator: Authenticator, private router: Router) { 
+        this.model = new AuthModel();
+    }
 
     doLogin() {
         this.authenticator.authenticate(this.model.login, this.model.password)

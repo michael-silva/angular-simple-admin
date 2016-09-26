@@ -10,12 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var auth_model_1 = require('../shared/auth.model');
 var authenticator_service_1 = require('../../shared/authenticator.service');
 var LoginComponent = (function () {
     function LoginComponent(authenticator, router) {
         this.authenticator = authenticator;
         this.router = router;
-        this.model = { login: '', password: '' };
+        this.model = new auth_model_1.AuthModel();
     }
     LoginComponent.prototype.doLogin = function () {
         var _this = this;

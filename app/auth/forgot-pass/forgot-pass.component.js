@@ -9,15 +9,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var authenticator_service_1 = require('../../shared/authenticator.service');
 var ForgotPassComponent = (function () {
-    function ForgotPassComponent() {
+    function ForgotPassComponent(authenticator) {
+        this.authenticator = authenticator;
     }
+    ForgotPassComponent.prototype.requestRecover = function () {
+        var _this = this;
+        this.authenticator.requestRecoverPass(this.email)
+            .then(function (msg) {
+            _this.successMessage = msg;
+            _this.email = "";
+        }).catch(function (error) {
+            _this.errorMessage = error.message;
+        });
+    };
     ForgotPassComponent = __decorate([
         core_1.Component({
             selector: 'forgot-pass',
             templateUrl: 'app/auth/forgot-pass/forgot-pass.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [authenticator_service_1.Authenticator])
     ], ForgotPassComponent);
     return ForgotPassComponent;
 }());

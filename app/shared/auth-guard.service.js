@@ -18,7 +18,7 @@ var AuthGuard = (function () {
         this.authRoute = "/auth";
     }
     AuthGuard.prototype.canActivate = function (route, state) {
-        if (this.authenticator.isAuthenticated())
+        if (!!this.authenticator.userAuthenticated)
             return true;
         this.redirectAuth(state.url);
         return false;
@@ -28,7 +28,7 @@ var AuthGuard = (function () {
     };
     AuthGuard.prototype.canLoad = function (route) {
         var url = "/" + route.path;
-        var isAuth = this.authenticator.isAuthenticated();
+        var isAuth = !!this.authenticator.userAuthenticated;
         if (!isAuth && url !== this.authRoute) {
             this.redirectAuth(url);
             return false;
