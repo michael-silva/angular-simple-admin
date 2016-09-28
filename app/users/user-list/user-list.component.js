@@ -27,21 +27,29 @@ var TableModel = (function () {
     }
     return TableModel;
 }());
-var TableBuilder = (function () {
-    function TableBuilder() {
+var PaggingModel = (function () {
+    function PaggingModel() {
     }
-    return TableBuilder;
+    return PaggingModel;
 }());
 var UserListComponent = (function () {
     function UserListComponent(http) {
         this.http = http;
+        this.pagging = new PaggingModel();
     }
     UserListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.http.get('api/users/?page=0')
+        this.http.get("api/users/?page=" + (this.pagging.current | 0))
             .map(function (response) { return response.json().data[0]; })
             .toPromise()
-            .then(function (data) { return _this.table = data; })
+            .then(function (data) {
+            _this.table = data;
+            _this.pagging.current = data.page;
+            _this.pagging.last = data.total / data.length;
+            _this.pagging.nearests = 3;
+            _this.pagging.pages = new Array(_this.pagging.current - _this.pagging.nearests * 2 + 1)
+                .map(function (x, i) { return _this.pagging.current - _this.pagging.nearests + i; });
+        })
             .catch(function (e) { return console.log(e); });
     };
     UserListComponent = __decorate([

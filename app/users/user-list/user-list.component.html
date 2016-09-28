@@ -1,20 +1,41 @@
-<h4>Users Management</h4>
-<hr>
-<table *ngIf="table" class="table table-bordered table-hover">
-    <thead class="thead-inverse">
-        <tr>
-            <th width="150px">Ações</th>
-            <th *ngFor="let col of table.columns">{{col.title}}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let row of table.data">
-            <th>
-                <button type="button" class="btn btn-outline-warning btn-sm"><i class="fa fa-edit"></i></button>
-                <button type="button" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i></button>
-                <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-close"></i></button>
-            </th>
-            <td *ngFor="let col of table.columns">{{row[col.data]}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    <h4>Users Management</h4>
+    <hr>
+</div>
+<div class="row">
+    <table *ngIf="table" class="table table-bordered table-hover">
+        <thead class="thead-inverse">
+            <tr>
+                <th *ngIf="table.selectable">
+                    <div class="checkbox">
+                        <input type="checkbox">
+                    </div>
+                </th>
+                <th width="150px">Ações</th>
+                <th *ngFor="let col of table.columns">{{col.title}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of table.data">
+                <th *ngIf="table.selectable">
+                    <input type="checkbox" [attr.disabled]="row.disableCheck">
+                </th>
+                <th>
+                    <button type="button" class="btn btn-outline-warning btn-sm"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i></button>
+                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-close"></i></button>
+                </th>
+                <td *ngFor="let col of table.columns">{{row[col.data]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="pagging" class="row">
+    <div class="btn-group">
+        <button type="button" class="btn btn-secondary" (click)="pageToFirst()">1</button>
+        <button type="button" *ngIf="pagging.current > pagging.nearests" disabled class="btn btn-secondary" >...</button>
+        <button type="button" *ngFor="let pag of pagging.pages" class="btn btn-secondary" >{{pag}}</button>
+        <button type="button" *ngIf="pagging.current < pagging.last - pagging.nearests" disabled class="btn btn-secondary" >...</button>
+        <button type="button" *ngIf="pagging.current < pagging.last - pagging.nearests" class="btn btn-secondary" (click)="pageToLast()">{{pagging.last}}</button>
+    </div>
+</div>
