@@ -28,7 +28,9 @@ class TableModel {
 
 class PaggingModel {
     first: number;
+    showFirst: boolean;
     last: number;
+    showLast: boolean;
     current: number;
     nearests: number;
     pages: number[];
@@ -52,11 +54,17 @@ export class UserListComponent implements OnInit {
             .toPromise()
             .then(data => {
                 this.table = data;
+                
                 this.pagging.current = data.page;
                 this.pagging.last = data.total / data.length;
                 this.pagging.nearests = 3;
-                this.pagging.pages = new Array(this.pagging.current - this.pagging.nearests * 2 + 1)
-                    .map((x,i)=>this.pagging.current - this.pagging.nearests + i);
+                let startRange = Math.max(this.pagging.current - this.pagging.nearests, 0);
+                this.pagging.showFirst = this.pagging.nearests < startRange;
+                let lastRange = Math.min(this.pagging.current + 1 + this.pagging.nearests, this.pagging.last);
+                this.pagging.showLast = this.pagging.last - this.pagging.nearests > lastRange;
+                this.pagging.pages = [];
+                for(let i = this.pagging.current - startRange; i < lastRange; i++)
+                    this.pagging.pages.push(i);
             })
             .catch(e => console.log(e));
     }

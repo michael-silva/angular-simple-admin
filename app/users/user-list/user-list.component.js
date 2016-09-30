@@ -47,8 +47,13 @@ var UserListComponent = (function () {
             _this.pagging.current = data.page;
             _this.pagging.last = data.total / data.length;
             _this.pagging.nearests = 3;
-            _this.pagging.pages = new Array(_this.pagging.current - _this.pagging.nearests * 2 + 1)
-                .map(function (x, i) { return _this.pagging.current - _this.pagging.nearests + i; });
+            var startRange = Math.max(_this.pagging.current - _this.pagging.nearests, 0);
+            _this.pagging.showFirst = _this.pagging.nearests < startRange;
+            var lastRange = Math.min(_this.pagging.current + 1 + _this.pagging.nearests, _this.pagging.last);
+            _this.pagging.showLast = _this.pagging.last - _this.pagging.nearests > lastRange;
+            _this.pagging.pages = [];
+            for (var i = _this.pagging.current - startRange; i < lastRange; i++)
+                _this.pagging.pages.push(i);
         })
             .catch(function (e) { return console.log(e); });
     };
