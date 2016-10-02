@@ -13,6 +13,10 @@ class TableColumn {
     searchable: boolean;
 }
 
+class ColumnModel extends TableColumn {
+    visible: boolean = true;
+}
+
 class TableModel {
     search: TableSearch;
     page: number = 0;
@@ -26,14 +30,17 @@ class TableModel {
     }
 }
 
-class PaggingModel {
-    first: number;
-    showFirst: boolean;
-    last: number;
-    showLast: boolean;
-    current: number;
-    nearests: number;
-    pages: number[];
+class TablePage {
+    page: number;
+    label: string;
+}
+
+class Util {
+    static Set(target: any, obj: any) {
+        for(let key in obj) {
+            target[key] = obj[key];
+        }
+    }
 }
 
 @Component({
@@ -42,29 +49,55 @@ class PaggingModel {
 })
 export class UserListComponent implements OnInit {
     table: TableModel;
-    pagging: PaggingModel;
+    pagging: TablePage[];
+    columns: ColumnModel[];
 
-    constructor(private http: Http) { 
-        this.pagging = new PaggingModel();
+    constructor(private http: Http) {
+        this.table = new TableModel();
+        this.columns = [];
+        this.pagging = [];
     }
 
     ngOnInit() {
-        this.http.get(`api/users/?page=${this.pagging.current | 0}`)
+        let page = this.table ? this.table.page | 0 : 0;
+        this.pageTo(page);
+    }
+
+    toggleColumn(col: ColumnModel) {
+        col.visible = !col.visible;
+    }
+
+    pageTo(page: number) {
+        this.http.get(`api/users/?page=${page}&length=${this.table.length}`)
             .map(response => response.json().data[0] as TableModel)
             .toPromise()
             .then(data => {
                 this.table = data;
+                for(let i = 0; i < this.table.columns.length; i++) {
+                    if(!this.columns[i]) this.columns[i] = new ColumnModel(); 
+                    Util.Set(this.columns[i], this.table.columns[i]);
+                }
+                this.pagging = [];
                 
-                this.pagging.current = data.page;
-                this.pagging.last = data.total / data.length;
-                this.pagging.nearests = 3;
-                let startRange = Math.max(this.pagging.current - this.pagging.nearests, 0);
-                this.pagging.showFirst = this.pagging.nearests < startRange;
-                let lastRange = Math.min(this.pagging.current + 1 + this.pagging.nearests, this.pagging.last);
-                this.pagging.showLast = this.pagging.last - this.pagging.nearests > lastRange;
-                this.pagging.pages = [];
-                for(let i = this.pagging.current - startRange; i < lastRange; i++)
-                    this.pagging.pages.push(i);
+                let last = data.total / data.length;
+                let nearests = 2;
+                
+                let startRange = Math.max(this.table.page - nearests, 0);
+                let lastRange = Math.min(this.table.page + 1 + nearests, last);
+
+                if(startRange > 0) {
+                    this.pagging.push({ page: 0, label: '1' });
+                    this.pagging.push({ page: -1, label: '...' });
+                }
+                
+                for(let i = startRange; i < lastRange; i++)
+                    this.pagging.push({ page: i, label: `${i+1}` });
+                
+                if(last > lastRange) {
+                    this.pagging.push({ page: -1, label: '...' });
+                    this.pagging.push({ page: last -1, label: `${last}` });
+                }
+
             })
             .catch(e => console.log(e));
     }
