@@ -28,7 +28,7 @@ import { AuthGuard }  from './shared/auth-guard.service';
   declarations: [
     AppComponent, 
     AppNavbarComponent,
-    HomeComponent,
+    HomeComponent, 
     HelpComponent,
     NotFoundComponent ],
   providers: [

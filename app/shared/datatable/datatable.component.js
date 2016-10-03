@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var platform_browser_1 = require('@angular/platform-browser');
 var http_1 = require('@angular/http');
 var datatable_model_1 = require('./datatable.model');
 var column_model_1 = require('./column.model');
@@ -23,15 +24,20 @@ var Util = (function () {
     return Util;
 }());
 var DatatableComponent = (function () {
-    function DatatableComponent(http) {
+    function DatatableComponent(http, sanitizer) {
         this.http = http;
+        this.sanitizer = sanitizer;
         this.table = new datatable_model_1.TableModel();
         this.columns = [];
         this.pagging = [];
+        this.actions = "";
         this.lengths = [10, 25, 50, 100];
     }
     DatatableComponent.prototype.ngOnInit = function () {
         this.draw();
+    };
+    DatatableComponent.prototype.rowActions = function (row) {
+        return this.sanitizer.bypassSecurityTrustHtml(eval(this.actions));
     };
     DatatableComponent.prototype.addColumn = function (column) {
         this.columns.push(column);
@@ -81,6 +87,10 @@ var DatatableComponent = (function () {
     ], DatatableComponent.prototype, "url", void 0);
     __decorate([
         core_1.Input(), 
+        __metadata('design:type', String)
+    ], DatatableComponent.prototype, "actions", void 0);
+    __decorate([
+        core_1.Input(), 
         __metadata('design:type', Array)
     ], DatatableComponent.prototype, "lengths", void 0);
     DatatableComponent = __decorate([
@@ -88,7 +98,7 @@ var DatatableComponent = (function () {
             selector: 'datatable',
             templateUrl: 'app/shared/datatable/datatable.component.html'
         }), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, platform_browser_1.DomSanitizer])
     ], DatatableComponent);
     return DatatableComponent;
 }());

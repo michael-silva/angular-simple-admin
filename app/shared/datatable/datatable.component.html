@@ -27,7 +27,7 @@
                         <input type="checkbox">
                     </div>
                 </th>
-                <th width="150px">Ações</th>
+                <th *ngIf="actions.length">Actions</th>
                 <th *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible">{{col.title}}</th>
             </tr>
         </thead>
@@ -36,11 +36,7 @@
                 <th *ngIf="table.selectable">
                     <input type="checkbox" [attr.disabled]="row.disableCheck">
                 </th>
-                <th>
-                    <button type="button" class="btn btn-outline-warning btn-sm"><i class="fa fa-edit"></i></button>
-                    <button type="button" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i></button>
-                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-close"></i></button>
-                </th>
+                <th *ngIf="actions.length" [innerHTML]="rowActions(row)"></th>
                 <td *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible">{{row[col.data]}}</td>
             </tr>
         </tbody>

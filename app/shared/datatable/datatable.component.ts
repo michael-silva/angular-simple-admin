@@ -1,7 +1,10 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, ContentChildren, TemplateRef, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Http } from '@angular/http';
+
 import { TableModel, TablePage } from './datatable.model';
 import { ColumnModel } from './column.model';
+import { ColumnComponent } from './column.component';
 
 class Util {
     static Set(target: any, obj: any) {
@@ -21,17 +24,25 @@ export class DatatableComponent implements OnInit {
     table: TableModel;
     
     @Input() url:string;
+    @Input() actions:string;
     @Input() lengths: number[];
 
-    constructor(private http: Http) {
+    constructor(
+        private http: Http, 
+        private sanitizer: DomSanitizer) {
         this.table = new TableModel();
         this.columns = [];
         this.pagging = [];
+        this.actions = "";
         this.lengths = [10, 25, 50, 100];
     }
 
     ngOnInit() {
         this.draw();
+    }
+
+    rowActions(row: any) : SafeHtml {
+        return this.sanitizer.bypassSecurityTrustHtml(eval(this.actions));
     }
 
     addColumn(column: ColumnModel) {
