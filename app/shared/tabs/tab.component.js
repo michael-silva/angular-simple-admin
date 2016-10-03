@@ -9,17 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var UserListComponent = (function () {
-    function UserListComponent() {
+var tabs_component_1 = require('./tabs.component');
+var TabComponent = (function () {
+    function TabComponent(tabs) {
+        this.test = "teste";
+        tabs.addTab(this);
+        this.id = '#';
     }
-    UserListComponent = __decorate([
+    TabComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], TabComponent.prototype, "tabName", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], TabComponent.prototype, "id", void 0);
+    TabComponent = __decorate([
         core_1.Component({
-            selector: 'user-list',
-            templateUrl: 'app/users/user-list/user-list.component.html'
+            selector: 'tab',
+            templateUrl: 'app/shared/tabs/tab.component.html'
         }), 
-        __metadata('design:paramtypes', [])
-    ], UserListComponent);
-    return UserListComponent;
+        __metadata('design:paramtypes', [tabs_component_1.TabsComponent])
+    ], TabComponent);
+    return TabComponent;
 }());
-exports.UserListComponent = UserListComponent;
-//# sourceMappingURL=user-list.component.js.map
+exports.TabComponent = TabComponent;
+//# sourceMappingURL=tab.component.js.map

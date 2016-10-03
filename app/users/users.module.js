@@ -12,6 +12,10 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
+var datatable_component_1 = require('../shared/datatable/datatable.component');
+var column_component_1 = require('../shared/datatable/column.component');
+var tabs_component_1 = require('../shared/tabs/tabs.component');
+var tab_component_1 = require('../shared/tabs/tab.component');
 var users_routing_1 = require('./users.routing');
 var users_component_1 = require('./users.component');
 var user_list_component_1 = require('./user-list/user-list.component');
@@ -33,6 +37,10 @@ var UsersModule = (function () {
                 angular2_in_memory_web_api_1.InMemoryWebApiModule.forRoot(users_in_memory_data_service_1.UsersInMemoryDataService, { delay: 500 }),
                 users_routing_1.usersRouting],
             declarations: [
+                tabs_component_1.TabsComponent,
+                tab_component_1.TabComponent,
+                datatable_component_1.DatatableComponent,
+                column_component_1.ColumnComponent,
                 users_component_1.UsersComponent,
                 user_list_component_1.UserListComponent,
                 user_profile_component_1.UserProfileComponent,

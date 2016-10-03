@@ -18,7 +18,8 @@ var UsersInMemoryDataService = (function () {
                 Date: rand(1, 30) + "/" + rand(1, 12) + "/" + rand(1996, 2016) });
         }
         var users = [];
-        for (var i = 10; i < data.length; i += 10) {
+        var lengths = [50, 25, 15];
+        for (var i = 10; i < data.length; i += lengths.pop()) {
             for (var j = 0; j < data.length / i; j++) {
                 users.push({
                     page: j,

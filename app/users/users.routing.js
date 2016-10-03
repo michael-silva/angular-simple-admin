@@ -17,7 +17,7 @@ var ROUTES = [{
                 component: user_profile_component_1.UserProfileComponent
             },
             {
-                path: '/:id',
+                path: ':id',
                 component: user_tabform_component_1.UserTabFormComponent
             },
             {

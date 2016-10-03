@@ -2,46 +2,10 @@
     <h4>Users Management</h4>
     <hr>
 </div>
-<div class="row m-b-1">
-    <div class="dropdown pull-xs-right" #checkCols>
-        <a class="btn btn-secondary dropdown-toggle"  href="javascript:;" (click)="checkCols.classList.toggle('open')">Columns</a>
-        <ul class="dropdown-menu dropdown-menu-right" (mouseleave)="checkCols.classList.remove('open')">
-            <li class="dropdown-item" *ngFor="let col of columns" >
-                <label class=""><input type="checkbox" [name]="col.data" [attr.checked]="col.visible" (change)="toggleColumn(col)"/> {{col.title}}</label>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="row">
-    <table *ngIf="table" class="table table-bordered table-hover">
-        <thead class="thead-inverse">
-            <tr>
-                <th *ngIf="table.selectable">
-                    <div class="checkbox">
-                        <input type="checkbox">
-                    </div>
-                </th>
-                <th width="150px">Ações</th>
-                <th *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible">{{col.title}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let row of table.data">
-                <th *ngIf="table.selectable">
-                    <input type="checkbox" [attr.disabled]="row.disableCheck">
-                </th>
-                <th>
-                    <button type="button" class="btn btn-outline-warning btn-sm"><i class="fa fa-edit"></i></button>
-                    <button type="button" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i></button>
-                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-close"></i></button>
-                </th>
-                <td *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible">{{row[col.data]}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div *ngIf="pagging" class="row">
-    <div class="btn-group">
-        <button type="button" *ngFor="let pag of pagging" [disabled]="pag.page == -1" [class.active]="pag.page == table.page" class="btn btn-secondary" (click)="pageTo(pag.page)">{{pag.label}}</button>
-    </div>
-</div>
+<datatable [url]="'api/users'">
+    <column [title]="'Ações'" #col1>
+        <button type="button" class="btn btn-outline-warning btn-sm"><i class="fa fa-edit"></i> {{col1.row | json}}</button>
+        <button type="button" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i> {{col1.data}}</button>
+        <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-close"></i></button>
+    </column>
+</datatable>

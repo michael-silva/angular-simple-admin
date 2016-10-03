@@ -4,6 +4,11 @@ import { CommonModule }   from '@angular/common';
 import { FormsModule }    from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 
+import { DatatableComponent }  from '../shared/datatable/datatable.component';
+import { ColumnComponent }  from '../shared/datatable/column.component';
+import { TabsComponent }  from '../shared/tabs/tabs.component';
+import { TabComponent }  from '../shared/tabs/tab.component';
+
 import { Authenticator } from '../shared/authenticator.service';
 import { usersRouting } from './users.routing';
 
@@ -25,6 +30,10 @@ import { UsersInMemoryDataService }  from './shared/users-in-memory-data.service
         InMemoryWebApiModule.forRoot(UsersInMemoryDataService, { delay: 500 }), 
         usersRouting],
     declarations: [
+        TabsComponent,
+        TabComponent,
+        DatatableComponent,
+        ColumnComponent,
         UsersComponent,
         UserListComponent,
         UserProfileComponent,

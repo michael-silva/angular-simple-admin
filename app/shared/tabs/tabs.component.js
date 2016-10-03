@@ -9,17 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var UserListComponent = (function () {
-    function UserListComponent() {
+var TabsComponent = (function () {
+    function TabsComponent() {
+        this.tabs = [];
     }
-    UserListComponent = __decorate([
+    TabsComponent.prototype.ngOnInit = function () {
+    };
+    TabsComponent.prototype.addTab = function (tab) {
+        if (this.tabs.length == 0)
+            tab.active = true;
+        this.tabs.push(tab);
+    };
+    TabsComponent.prototype.selectTab = function (tab) {
+        this.tabs.forEach(function (tab) { return tab.active = false; });
+        tab.active = true;
+        return false;
+    };
+    TabsComponent = __decorate([
         core_1.Component({
-            selector: 'user-list',
-            templateUrl: 'app/users/user-list/user-list.component.html'
+            selector: 'tabs',
+            templateUrl: 'app/shared/tabs/tabs.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], UserListComponent);
-    return UserListComponent;
+    ], TabsComponent);
+    return TabsComponent;
 }());
-exports.UserListComponent = UserListComponent;
-//# sourceMappingURL=user-list.component.js.map
+exports.TabsComponent = TabsComponent;
+//# sourceMappingURL=tabs.component.js.map

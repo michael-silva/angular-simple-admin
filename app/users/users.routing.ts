@@ -19,7 +19,7 @@ const ROUTES: Routes = [{
                 component: UserProfileComponent
             }, 
             {
-                path: '/:id',
+                path: ':id',
                 component: UserTabFormComponent
             }, 
             {

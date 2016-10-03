@@ -18,7 +18,8 @@ export class UsersInMemoryDataService implements InMemoryDbService {
     }
 
     let users: Array<any> = [];
-    for(let i = 10; i < data.length; i+=10) {
+    let lengths = [50, 25, 15];
+    for(let i = 10; i < data.length; i+=lengths.pop()) {
       for(let j = 0; j < data.length/i; j++) {
         users.push({
           page: j,
