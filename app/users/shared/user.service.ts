@@ -7,11 +7,12 @@ import { Subject } from 'rxjs/Subject';
 import { User } from '../shared/user.model';
 
 @Injectable()
-export class Authenticator {
+export class UserService {
     constructor(private http: Http) { }
 
-    getUser(guid: string): Promise<User> {
-        return Promise.resolve({ name: 'Some user', token: '1sa12sa', guid: guid} as User);
+    getUser(id: number): Promise<User> {
+        return this.http.get(`api/user?id=${id}`)
+        .map(data => data.json().data[0] as User).toPromise();
     }
     
 }

@@ -10,6 +10,7 @@ import { TabsComponent }  from '../shared/tabs/tabs.component';
 import { TabComponent }  from '../shared/tabs/tab.component';
 
 import { Authenticator } from '../shared/authenticator.service';
+import { UserService } from './shared/user.service';
 import { usersRouting } from './users.routing';
 
 import { UsersComponent } from './users.component';
@@ -38,6 +39,7 @@ import { UsersInMemoryDataService }  from './shared/users-in-memory-data.service
         UserListComponent,
         UserProfileComponent,
         UserTabFormComponent,
-        UserWizzardComponent]
+        UserWizzardComponent],
+    providers: [UserService]
 })
 export class UsersModule { }

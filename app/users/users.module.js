@@ -16,6 +16,7 @@ var datatable_component_1 = require('../shared/datatable/datatable.component');
 var column_component_1 = require('../shared/datatable/column.component');
 var tabs_component_1 = require('../shared/tabs/tabs.component');
 var tab_component_1 = require('../shared/tabs/tab.component');
+var user_service_1 = require('./shared/user.service');
 var users_routing_1 = require('./users.routing');
 var users_component_1 = require('./users.component');
 var user_list_component_1 = require('./user-list/user-list.component');
@@ -45,7 +46,8 @@ var UsersModule = (function () {
                 user_list_component_1.UserListComponent,
                 user_profile_component_1.UserProfileComponent,
                 user_tabform_component_1.UserTabFormComponent,
-                user_wizzard_component_1.UserWizzardComponent]
+                user_wizzard_component_1.UserWizzardComponent],
+            providers: [user_service_1.UserService]
         }), 
         __metadata('design:paramtypes', [])
     ], UsersModule);

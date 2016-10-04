@@ -10,18 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var Authenticator = (function () {
-    function Authenticator(http) {
+var UserService = (function () {
+    function UserService(http) {
         this.http = http;
     }
-    Authenticator.prototype.getUser = function (guid) {
-        return Promise.resolve({ name: 'Some user', token: '1sa12sa', guid: guid });
+    UserService.prototype.getUser = function (id) {
+        return this.http.get("api/user?id=" + id)
+            .map(function (data) { return data.json().data[0]; }).toPromise();
     };
-    Authenticator = __decorate([
+    UserService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
-    ], Authenticator);
-    return Authenticator;
+    ], UserService);
+    return UserService;
 }());
-exports.Authenticator = Authenticator;
+exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

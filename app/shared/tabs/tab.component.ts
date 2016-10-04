@@ -1,4 +1,4 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 
 import { TabsComponent } from './tabs.component';
 
@@ -6,19 +6,31 @@ import { TabsComponent } from './tabs.component';
     selector: 'tab',
     templateUrl: 'app/shared/tabs/tab.component.html'
 })
-export class TabComponent implements OnInit {
-    active: boolean;
-    test: string = "teste";
+export class TabComponent implements AfterViewInit {
+    isactive: boolean = false;
 
     @Input() tabName: string;
     @Input() id: string;
 
-    constructor(tabs: TabsComponent) {
+    constructor(private element: ElementRef, tabs: TabsComponent) {
         tabs.addTab(this);
-        this.id = '#';
+
+        this.element.nativeElement.classList.add('tab-pane');
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
+    }
 
+    active() {
+        if(!this.isactive) {
+            this.isactive = true; 
+            this.element.nativeElement.classList.add('active');
+        }
+    }
+    inactive() {
+        if(this.isactive) {
+            this.isactive = false; 
+            this.element.nativeElement.classList.remove('active');
+        }
     }
 }

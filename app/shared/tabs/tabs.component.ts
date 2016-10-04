@@ -1,4 +1,5 @@
-import { Input, Component, OnInit } from '@angular/core';
+import { Input, Component, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { TabComponent } from './tab.component';
 
@@ -6,21 +7,27 @@ import { TabComponent } from './tab.component';
     selector: 'tabs',
     templateUrl: 'app/shared/tabs/tabs.component.html'
 })
-export class TabsComponent implements OnInit {
+export class TabsComponent implements AfterViewInit {
     tabs: TabComponent[] = [];
     
-    ngOnInit() {
+    constructor(private route: ActivatedRoute) { }
+
+    ngAfterViewInit() {
+        this.route.fragment.map(fragment => fragment)
+            .subscribe((fragment) => {
+                console.log(fragment);
+                this.selectTab(this.tabs.find(x => x.id == fragment))
+            });
     }
 
     addTab(tab: TabComponent) {
         if(this.tabs.length == 0)
-            tab.active = true;
+            tab.active();
         this.tabs.push(tab);
     }
 
     selectTab(tab: TabComponent) {
-        this.tabs.forEach(tab => tab.active = false);
-        tab.active = true;
-        return false;
+        this.tabs.forEach(tab => tab.inactive());
+        tab.active();
     }
 }

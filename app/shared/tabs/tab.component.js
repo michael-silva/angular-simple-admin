@@ -11,12 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var tabs_component_1 = require('./tabs.component');
 var TabComponent = (function () {
-    function TabComponent(tabs) {
-        this.test = "teste";
+    function TabComponent(element, tabs) {
+        this.element = element;
+        this.isactive = false;
         tabs.addTab(this);
-        this.id = '#';
+        this.element.nativeElement.classList.add('tab-pane');
     }
-    TabComponent.prototype.ngOnInit = function () {
+    TabComponent.prototype.ngAfterViewInit = function () {
+    };
+    TabComponent.prototype.active = function () {
+        if (!this.isactive) {
+            this.isactive = true;
+            this.element.nativeElement.classList.add('active');
+        }
+    };
+    TabComponent.prototype.inactive = function () {
+        if (this.isactive) {
+            this.isactive = false;
+            this.element.nativeElement.classList.remove('active');
+        }
     };
     __decorate([
         core_1.Input(), 
@@ -31,7 +44,7 @@ var TabComponent = (function () {
             selector: 'tab',
             templateUrl: 'app/shared/tabs/tab.component.html'
         }), 
-        __metadata('design:paramtypes', [tabs_component_1.TabsComponent])
+        __metadata('design:paramtypes', [core_1.ElementRef, tabs_component_1.TabsComponent])
     ], TabComponent);
     return TabComponent;
 }());

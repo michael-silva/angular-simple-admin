@@ -9,15 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
+var user_service_1 = require('../shared/user.service');
 var UserTabFormComponent = (function () {
-    function UserTabFormComponent() {
+    function UserTabFormComponent(route, userService) {
+        this.route = route;
+        this.userService = userService;
     }
+    UserTabFormComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.params
+            .map(function (params) { return +params['id']; })
+            .subscribe(function (id) {
+            _this.userService
+                .getUser(id)
+                .then(function (user) { return _this.user = user; });
+        });
+    };
     UserTabFormComponent = __decorate([
         core_1.Component({
             selector: 'users',
             templateUrl: 'app/users/user-tabform/user-tabform.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute, user_service_1.UserService])
     ], UserTabFormComponent);
     return UserTabFormComponent;
 }());

@@ -9,28 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var TabsComponent = (function () {
-    function TabsComponent() {
+    function TabsComponent(route) {
+        this.route = route;
         this.tabs = [];
     }
-    TabsComponent.prototype.ngOnInit = function () {
+    TabsComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        this.route.fragment.map(function (fragment) { return fragment; })
+            .subscribe(function (fragment) {
+            console.log(fragment);
+            _this.selectTab(_this.tabs.find(function (x) { return x.id == fragment; }));
+        });
     };
     TabsComponent.prototype.addTab = function (tab) {
         if (this.tabs.length == 0)
-            tab.active = true;
+            tab.active();
         this.tabs.push(tab);
     };
     TabsComponent.prototype.selectTab = function (tab) {
-        this.tabs.forEach(function (tab) { return tab.active = false; });
-        tab.active = true;
-        return false;
+        this.tabs.forEach(function (tab) { return tab.inactive(); });
+        tab.active();
     };
     TabsComponent = __decorate([
         core_1.Component({
             selector: 'tabs',
             templateUrl: 'app/shared/tabs/tabs.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute])
     ], TabsComponent);
     return TabsComponent;
 }());

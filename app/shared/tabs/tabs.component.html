@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs">
     <li *ngFor="let tab of tabs" class="nav-item">
-        <a class="nav-link" [class.active]="tab.active" [href]="tab.id" (click)="selectTab(tab)">{{tab.tabName}}</a>
+        <a class="nav-link" [class.active]="tab.isactive" [routerLink]="'./'" [fragment]="tab.id" (click)="selectTab(tab)">{{tab.tabName}}</a>
     </li>
 </ul>
 <div class="tab-content">

@@ -4,18 +4,18 @@ var UsersInMemoryDataService = (function () {
     }
     UsersInMemoryDataService.prototype.createDb = function () {
         var rand = function (s, e) { return Math.floor(Math.random() * (e - s)) + s; };
-        var fields = [{ title: 'Id', data: 'Id' },
-            { title: 'Name', data: 'Name' },
-            { title: 'Age', data: 'Age' },
-            { title: 'Date', data: 'Date' }];
+        var fields = [{ title: 'Id', data: 'id' },
+            { title: 'Name', data: 'name' },
+            { title: 'Age', data: 'age' },
+            { title: 'Date', data: 'date' }];
         var names = ['Admin', 'Simple', 'User', 'Finance', 'Marketing', 'Logistic'];
         var data = [];
         for (var i = 0; i < 100; i++) {
             data.push({
-                Id: i + 1,
-                Name: names[rand(1, names.length)],
-                Age: rand(20, 50),
-                Date: rand(1, 30) + "/" + rand(1, 12) + "/" + rand(1996, 2016) });
+                id: i + 1,
+                name: names[rand(1, names.length)],
+                age: rand(20, 50),
+                date: rand(1, 30) + "/" + rand(1, 12) + "/" + rand(1996, 2016) });
         }
         var users = [];
         var lengths = [50, 25, 15];
@@ -30,8 +30,7 @@ var UsersInMemoryDataService = (function () {
                 });
             }
         }
-        console.log(users);
-        return { users: users };
+        return { users: users, user: data };
     };
     return UsersInMemoryDataService;
 }());

@@ -3,18 +3,18 @@ import { InMemoryDbService } from 'angular2-in-memory-web-api';
 export class UsersInMemoryDataService implements InMemoryDbService {
   createDb() {
     let rand = (s:number, e:number) => Math.floor(Math.random() * (e - s)) + s;
-    let fields = [{ title: 'Id', data: 'Id' },
-                  { title: 'Name', data: 'Name' },
-                  { title: 'Age', data: 'Age' },
-                  { title: 'Date', data: 'Date' }];
+    let fields = [{ title: 'Id', data: 'id' },
+                  { title: 'Name', data: 'name' },
+                  { title: 'Age', data: 'age' },
+                  { title: 'Date', data: 'date' }];
     let names = ['Admin', 'Simple', 'User', 'Finance', 'Marketing', 'Logistic'];
     let data: Array<any> = [];
     for(let i = 0; i < 100; i++) {
       data.push({ 
-        Id: i+1, 
-        Name: names[rand(1, names.length)], 
-        Age: rand(20, 50), 
-        Date: `${rand(1, 30)}/${rand(1, 12)}/${rand(1996, 2016)}` });
+        id: i+1,
+        name: names[rand(1, names.length)], 
+        age: rand(20, 50), 
+        date: `${rand(1, 30)}/${rand(1, 12)}/${rand(1996, 2016)}` });
     }
 
     let users: Array<any> = [];
@@ -31,7 +31,6 @@ export class UsersInMemoryDataService implements InMemoryDbService {
       }
     }
 
-    console.log(users);
-    return { users };
+    return { users, user: data };
   }
 }
