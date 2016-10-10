@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platform_browser_1 = require('@angular/platform-browser');
 var http_1 = require('@angular/http');
 var datatable_model_1 = require('./datatable.model');
 var column_model_1 = require('./column.model');
@@ -24,20 +23,39 @@ var Util = (function () {
     return Util;
 }());
 var DatatableComponent = (function () {
-    function DatatableComponent(http, sanitizer) {
+    function DatatableComponent(http) {
         this.http = http;
-        this.sanitizer = sanitizer;
+        this.self = this;
         this.table = new datatable_model_1.TableModel();
         this.columns = [];
         this.pagging = [];
-        this.actions = "";
+        this.checks = [];
         this.lengths = [10, 25, 50, 100];
     }
     DatatableComponent.prototype.ngOnInit = function () {
+        localStorage.setItem('tb-checks', '');
         this.draw();
     };
-    DatatableComponent.prototype.rowActions = function (row) {
-        return this.sanitizer.bypassSecurityTrustHtml(eval(this.actions));
+    DatatableComponent.prototype.check = function (value, checked) {
+        var index = this.checks.indexOf(value);
+        if (index >= 0 && checked) {
+            this.checks = this.checks.slice(index, 1);
+        }
+        else if (index == -1 && checked) {
+            this.checks.push(value);
+        }
+    };
+    DatatableComponent.prototype.toggleSelect = function (row) {
+        row.selected = !row.selected;
+        this.check(row.id, row.selected);
+    };
+    DatatableComponent.prototype.toggleAll = function () {
+        var _this = this;
+        this.allChecked = !this.allChecked;
+        this.table.data.forEach(function (row) {
+            row.selected = _this.allChecked;
+            _this.check(row.id, row.selected);
+        });
     };
     DatatableComponent.prototype.addColumn = function (column) {
         this.columns.push(column);
@@ -45,39 +63,73 @@ var DatatableComponent = (function () {
     DatatableComponent.prototype.toggleColumn = function (col) {
         col.visible = !col.visible;
     };
+    DatatableComponent.prototype.isOrdered = function (col) {
+        return col.order != null;
+    };
+    DatatableComponent.prototype.isOrderedAsc = function (col) {
+        return col.order == column_model_1.OrderBy.Asc;
+    };
+    DatatableComponent.prototype.isOrderedDesc = function (col) {
+        return col.order == column_model_1.OrderBy.Desc;
+    };
+    DatatableComponent.prototype.toggleOrder = function (col) {
+        if (col.orderable) {
+            if (this.isOrdered(col)) {
+                if (this.isOrderedAsc(col))
+                    col.order = column_model_1.OrderBy.Desc;
+                else
+                    col.order = column_model_1.OrderBy.Asc;
+            }
+            else {
+                this.columns.forEach(function (c) { return c.order = null; });
+                col.order = column_model_1.OrderBy.Asc;
+            }
+        }
+    };
     DatatableComponent.prototype.pageTo = function (page) {
         this.table.page = page;
         this.draw();
+    };
+    DatatableComponent.prototype.preparePagination = function (data) {
+        this.pagging = [];
+        var last = data.total / data.length;
+        var nearests = 2;
+        var startRange = Math.max(this.table.page - nearests, 0);
+        var lastRange = Math.min(this.table.page + 1 + nearests, last);
+        if (startRange > 0) {
+            this.pagging.push({ page: 0, label: '1' });
+            this.pagging.push({ page: -1, label: '...' });
+        }
+        for (var i = startRange; i < lastRange; i++)
+            this.pagging.push({ page: i, label: "" + (i + 1) });
+        if (last > lastRange) {
+            this.pagging.push({ page: -1, label: '...' });
+            this.pagging.push({ page: last - 1, label: "" + last });
+        }
     };
     DatatableComponent.prototype.draw = function () {
         var _this = this;
         if (!this.url)
             throw new Error('It\'s required a url to draw the table');
+        localStorage.setItem('tb-checks', JSON.stringify(this.checks));
         this.http.get(this.url + "/?page=" + this.table.page + "&length=" + this.table.length)
             .map(function (response) { return response.json().data[0]; })
             .toPromise()
             .then(function (data) {
             _this.table = data;
+            _this.allChecked = false;
             for (var i = _this.columns.length; i < _this.table.columns.length; i++) {
                 if (!_this.columns[i])
                     _this.columns[i] = new column_model_1.ColumnModel();
                 Util.Set(_this.columns[i], _this.table.columns[i]);
             }
-            _this.pagging = [];
-            var last = data.total / data.length;
-            var nearests = 2;
-            var startRange = Math.max(_this.table.page - nearests, 0);
-            var lastRange = Math.min(_this.table.page + 1 + nearests, last);
-            if (startRange > 0) {
-                _this.pagging.push({ page: 0, label: '1' });
-                _this.pagging.push({ page: -1, label: '...' });
+            if (_this.checks.length > 0) {
+                for (var i = 0; i < _this.table.data.length; i++) {
+                    var index = _this.checks.indexOf(_this.table.data[i].id);
+                    _this.table.data[i].selected = index >= 0;
+                }
             }
-            for (var i = startRange; i < lastRange; i++)
-                _this.pagging.push({ page: i, label: "" + (i + 1) });
-            if (last > lastRange) {
-                _this.pagging.push({ page: -1, label: '...' });
-                _this.pagging.push({ page: last - 1, label: "" + last });
-            }
+            _this.preparePagination(data);
         })
             .catch(function (e) { return console.log(e); });
     };
@@ -87,18 +139,18 @@ var DatatableComponent = (function () {
     ], DatatableComponent.prototype, "url", void 0);
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', String)
-    ], DatatableComponent.prototype, "actions", void 0);
-    __decorate([
-        core_1.Input(), 
         __metadata('design:type', Array)
     ], DatatableComponent.prototype, "lengths", void 0);
+    __decorate([
+        core_1.ContentChild(core_1.TemplateRef), 
+        __metadata('design:type', core_1.TemplateRef)
+    ], DatatableComponent.prototype, "itemTemplate", void 0);
     DatatableComponent = __decorate([
         core_1.Component({
             selector: 'datatable',
             templateUrl: 'app/shared/datatable/datatable.component.html'
         }), 
-        __metadata('design:paramtypes', [http_1.Http, platform_browser_1.DomSanitizer])
+        __metadata('design:paramtypes', [http_1.Http])
     ], DatatableComponent);
     return DatatableComponent;
 }());

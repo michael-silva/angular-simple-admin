@@ -20,4 +20,9 @@ var ColumnModel = (function (_super) {
     return ColumnModel;
 }(TableColumn));
 exports.ColumnModel = ColumnModel;
+(function (OrderBy) {
+    OrderBy[OrderBy["Asc"] = 0] = "Asc";
+    OrderBy[OrderBy["Desc"] = 1] = "Desc";
+})(exports.OrderBy || (exports.OrderBy = {}));
+var OrderBy = exports.OrderBy;
 //# sourceMappingURL=column.model.js.map

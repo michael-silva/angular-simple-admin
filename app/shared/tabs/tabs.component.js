@@ -19,8 +19,9 @@ var TabsComponent = (function () {
         var _this = this;
         this.route.fragment.map(function (fragment) { return fragment; })
             .subscribe(function (fragment) {
-            console.log(fragment);
-            _this.selectTab(_this.tabs.find(function (x) { return x.id == fragment; }));
+            var tab = _this.tabs.find(function (x) { return x.id == fragment; });
+            if (tab)
+                _this.selectTab(tab);
         });
     };
     TabsComponent.prototype.addTab = function (tab) {

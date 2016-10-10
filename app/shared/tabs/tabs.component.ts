@@ -15,8 +15,8 @@ export class TabsComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.route.fragment.map(fragment => fragment)
             .subscribe((fragment) => {
-                console.log(fragment);
-                this.selectTab(this.tabs.find(x => x.id == fragment))
+                let tab = this.tabs.find(x => x.id == fragment);
+                if(tab) this.selectTab(tab)
             });
     }
 

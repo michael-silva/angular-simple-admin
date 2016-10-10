@@ -16,3 +16,6 @@ body {
   padding-bottom: 25px;
   min-height: 500px;
   background-color: #fff; }
+
+.table .dropdown-menu {
+  border: none !important; }

@@ -2,7 +2,7 @@
     <div class="col-xs-6">
         <p>Showing from {{table.page * table.length}} to {{table.page * table.length + table.length}} of {{table.total}} <span *ngIf="table.totalFiltered">filtereds of {{table.totalFiltered}}</span></p>
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-3" *ngIf="lengths.length">
         <select class="form-control" name="rows" [(ngModel)]="table.length" (ngModelChange)="pageTo(0)">
             <option *ngFor="let length of lengths">{{length}}</option>
         </select>
@@ -19,26 +19,32 @@
     </div>
 </div>
 <div class="row">
-    <table *ngIf="table" class="table table-bordered table-hover">
+    <table *ngIf="table" class="table table-bordered" [class.table-hover]="table.selectable">
         <thead class="thead-inverse">
             <tr>
                 <th *ngIf="table.selectable">
                     <div class="checkbox">
-                        <input type="checkbox">
+                        <input type="checkbox" (change)="toggleAll()">
                     </div>
                 </th>
-                <th *ngIf="actions.length">Actions</th>
-                <th *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible">{{col.title}}</th>
+                <th *ngIf="itemTemplate">Actions</th>
+                <th *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible" [class.orderable]="col.orderable" (click)="toggleOrder(col)">
+                    <i *ngIf="col.orderable" class="fa" [ngClass]="{ 'fa-sort': !isOrdered(col), 'fa-sort-asc': isOrderedAsc(col), 'fa-sort-desc': isOrderedDesc(col) }"></i> {{col.title}}
+                </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let row of table.data">
-                <th *ngIf="table.selectable">
-                    <input type="checkbox" [attr.disabled]="row.disableCheck">
-                </th>
-                <th *ngIf="actions.length" [innerHTML]="rowActions(row)"></th>
-                <td *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible">{{row[col.data]}}</td>
-            </tr>
+            <template ngFor [ngForOf]="table.data" let-row>
+                <tr (click)="toggleSelect(row)">
+                    <th *ngIf="table.selectable">
+                        <input type="checkbox" [attr.disabled]="row.disableCheck" [(ngModel)]="row.selected">
+                    </th>
+                    <th *ngIf="itemTemplate">
+                        <template [ngOutletContext]="{ 'row': row }" [ngTemplateOutlet]="itemTemplate"></template>
+                    </th>
+                    <td *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible">{{row[col.data]}}</td>
+                </tr>
+            </template>
         </tbody>
     </table>
 </div>
