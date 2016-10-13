@@ -134,7 +134,10 @@ export class DatatableComponent implements OnInit {
 
         localStorage.setItem('tb-checks', JSON.stringify(this.checks));
         this.http.get(`${this.url}/?page=${this.table.page}&length=${this.table.length}`)
-            .map(response => response.json().data[0] as TableModel)
+            .map(response => {
+                console.log(response);
+                return response.json().data[0] as TableModel;
+            })
             .toPromise()
             .then(data => {
                 this.table = data;

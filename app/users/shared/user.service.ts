@@ -11,8 +11,8 @@ export class UserService {
     constructor(private http: Http) { }
 
     getUser(id: number): Promise<User> {
-        return this.http.get(`api/user?id=${id}`)
-        .map(data => data.json().data[0] as User).toPromise();
+        return this.http.get(`api/users/${id}`)
+        .map(data => data.json().data as User).toPromise();
     }
     
 }

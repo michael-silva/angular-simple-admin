@@ -39,6 +39,6 @@ export class UsersInMemoryDataService implements InMemoryDbService {
       }
     }
 
-    return { 'users': table, 'user': users };
+    return { 'table': table, 'users': users };
   }
 }

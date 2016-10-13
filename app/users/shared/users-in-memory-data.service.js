@@ -38,7 +38,7 @@ var UsersInMemoryDataService = (function () {
                 });
             }
         }
-        return { 'users': table, 'user': users };
+        return { 'table': table, 'users': users };
     };
     return UsersInMemoryDataService;
 }());

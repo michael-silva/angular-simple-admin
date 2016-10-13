@@ -43,9 +43,9 @@ var Authenticator = (function () {
     Authenticator.prototype.authenticate = function (login, pass) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var mock = { login: 'admin', pass: '123456', token: 'asasasasa' };
+            var mock = { login: 'admin', pass: '123456' };
             if (mock.login == login && mock.pass == pass) {
-                var user = { name: 'User Name', token: 'asasasasa' };
+                var user = { name: 'User Name' };
                 _this.userObservable.next(user);
                 localStorage.setItem('user', JSON.stringify(user));
                 return resolve(user);
@@ -58,7 +58,7 @@ var Authenticator = (function () {
         return Promise.resolve("A recover password link was sent to your email.");
     };
     Authenticator.prototype.changePassword = function (model) {
-        var user = { name: 'User Name', token: 'asasasasa' };
+        var user = { name: 'User Name' };
         this.userObservable.next(user);
         return Promise.resolve("Your new password has been saved with success");
     };

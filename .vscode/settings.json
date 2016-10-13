@@ -10,4 +10,6 @@
         "**/*.js": { "when": "$(basename).ts"},
         "**/*.js.map": { "when": "$(basename)"}
     }
+,
+"typescript.check.workspaceVersion": false
 }

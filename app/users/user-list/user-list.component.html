@@ -2,7 +2,7 @@
     <h4>Users Management</h4>
     <hr>
 </div>
-<datatable url="api/users">
+<datatable url="api/table">
     <template let-row="row">
         <div class="btn-group btn-block text-xs-center" [class.open]="row.actionsOppened">
             <a class="btn" (click)="row.actionsOppened = !row.actionsOppened; $event.stopPropagation()"><i class="fa fa-bars"></i></a>

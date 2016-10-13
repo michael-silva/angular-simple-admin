@@ -15,8 +15,8 @@ var UserService = (function () {
         this.http = http;
     }
     UserService.prototype.getUser = function (id) {
-        return this.http.get("api/user?id=" + id)
-            .map(function (data) { return data.json().data[0]; }).toPromise();
+        return this.http.get("api/users/" + id)
+            .map(function (data) { return data.json().data; }).toPromise();
     };
     UserService = __decorate([
         core_1.Injectable(), 

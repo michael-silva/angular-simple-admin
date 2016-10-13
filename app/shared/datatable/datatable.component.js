@@ -113,7 +113,10 @@ var DatatableComponent = (function () {
             throw new Error('It\'s required a url to draw the table');
         localStorage.setItem('tb-checks', JSON.stringify(this.checks));
         this.http.get(this.url + "/?page=" + this.table.page + "&length=" + this.table.length)
-            .map(function (response) { return response.json().data[0]; })
+            .map(function (response) {
+            console.log(response);
+            return response.json().data[0];
+        })
             .toPromise()
             .then(function (data) {
             _this.table = data;

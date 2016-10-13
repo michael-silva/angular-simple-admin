@@ -40,9 +40,9 @@ export class Authenticator {
 
     authenticate(login: string, pass: string): Promise<User> {
         return new Promise((resolve, reject) => {
-            let mock = { login: 'admin', pass: '123456', token: 'asasasasa' };
+            let mock = { login: 'admin', pass: '123456' };
             if (mock.login == login && mock.pass == pass) {
-                let user = { name: 'User Name', token: 'asasasasa' } as User;
+                let user = { name: 'User Name' } as User;
                 this.userObservable.next(user);
                 localStorage.setItem('user', JSON.stringify(user));
                 return resolve(user);
@@ -56,7 +56,7 @@ export class Authenticator {
     }
 
     changePassword(model: NewPasswordModel): Promise<string> {
-        let user = { name: 'User Name', token: 'asasasasa' } as User;
+        let user = { name: 'User Name' } as User;
         this.userObservable.next(user);
         
         return Promise.resolve("Your new password has been saved with success");
