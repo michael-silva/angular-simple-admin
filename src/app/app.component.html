@@ -1,8 +1,8 @@
 <app-navbar></app-navbar>
 
-<main class="container p-a-2" [class.has-navbar]="isAuthenticated">
+<main class="container main-container" [ngClass]="{ '-visiblenav': isAuthenticated }">
   <router-outlet></router-outlet>
 </main>
-<footer class="container footer">
-  <p [class.text-xs-center]="!isAuthenticated">Simple copyright footer.</p>
+<footer class="container">
+  <p>Simple copyright footer.</p>
 </footer>

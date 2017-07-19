@@ -5,7 +5,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const rand = (s: number, e: number) => Math.floor(Math.random() * (e - s)) + s;
+const rand = (s, e) => Math.floor(Math.random() * (e - s)) + s;
 const fields = [{ title: 'Id', data: 'id', orderable: true },
     { title: 'Name', data: 'name', orderable: true },
     { title: 'Type', data: 'type', orderable: true },
@@ -21,7 +21,7 @@ let USERS = [
     { id: 13, name: 'User', password: '123456', login: 'user', token: 'secret-token' },
 ];
 for (let i = 0; i < 100; i++) {
-    users.push({
+    USERS.push({
         id: i + 1,
         name: names[rand(1, names.length)] + ' ' + lastnames[rand(1, lastnames.length)],
         type: types[rand(1, types.length)],
@@ -36,15 +36,15 @@ for (let i = 0; i < 100; i++) {
 
 let table = [];
 let lengths = [50, 25, 15];
-for (let i = 10; i < users.length; i += lengths.pop()) {
-    for (let j = 0; j < users.length / i; j++) {
+for (let i = 10; i < USERS.length; i += lengths.pop()) {
+    for (let j = 0; j < USERS.length / i; j++) {
         table.push({
             selectable: true,
             page: j,
             length: i,
-            total: users.length,
+            total: USERS.length,
             columns: fields,
-            data: users.slice(j * i, j * i + i)
+            data: USERS.slice(j * i, j * i + i)
         });
     }
 }

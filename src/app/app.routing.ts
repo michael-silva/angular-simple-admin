@@ -25,7 +25,7 @@ const ROUTES: Routes = [{
     }]
 },
 {
-    path: 'auth',
+    path: 'login',
     loadChildren: 'app/auth/auth.module#AuthModule',
     canLoad: [AuthGuard]
 },

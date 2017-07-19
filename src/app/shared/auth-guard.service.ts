@@ -10,7 +10,7 @@ import { Authenticator }      from './authenticator.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-    private authRoute: string = "/auth";
+    private authRoute: string = "/login";
 
     constructor(private authenticator: Authenticator, private router: Router) { }
 

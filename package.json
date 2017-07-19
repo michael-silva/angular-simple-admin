@@ -4,11 +4,13 @@
   "description": "A simple Angular model of a admin system",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"nodemon src/server.js\" \"ng serve\"",
+    "start": "npm run build-css && concurrently \"npm run watch-css\" \"nodemon src/server.js\" \"ng serve\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-css": "node-sass src/assets/scss/main.scss src/assets/css/main.min.css --output-style compressed",
+    "watch-css": "node-sass -w src/assets/scss/main.scss src/assets/css/main.min.css --output-style compressed"
   },
   "keywords": [],
   "author": "",

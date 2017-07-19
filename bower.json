@@ -1,0 +1,21 @@
+{
+  "name": "angular-simple-admin",
+  "description": "A simple Angular model of a admin system",
+  "main": "",
+  "authors": [
+    "Michael Silva <michael.silva@iteris.com.br>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/michael-silva/angular2-simple-admin",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.6",
+    "font-awesome": "^4.7.0"
+  }
+}

@@ -1,6 +1,6 @@
 # Simple Admin
 
-A simple Angular model of a admin system
+A simple template Angular model of a admin system
 
 ## next steps
 Register User
