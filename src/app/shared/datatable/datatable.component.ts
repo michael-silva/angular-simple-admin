@@ -1,6 +1,8 @@
 import { Input, Component, ContentChild, TemplateRef, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+
+import 'rxjs/add/operator/toPromise';
 
 import { TableModel, TablePage } from './datatable.model';
 import { ColumnModel, OrderBy } from './column.model';
@@ -31,7 +33,7 @@ export class DatatableComponent implements OnInit {
 
     @ContentChild(TemplateRef) itemTemplate: TemplateRef<any>;
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.table = new TableModel();
         this.columns = [];
         this.pagging = [];
@@ -133,11 +135,7 @@ export class DatatableComponent implements OnInit {
         if(!this.url) throw new Error('It\'s required a url to draw the table');
 
         localStorage.setItem('tb-checks', JSON.stringify(this.checks));
-        this.http.get(`${this.url}/?page=${this.table.page}&length=${this.table.length}`)
-            .map(response => {
-                console.log(response);
-                return response.json().data[0] as TableModel;
-            })
+        this.http.get<TableModel>(`${this.url}/?page=${this.table.page}&length=${this.table.length}`)
             .toPromise()
             .then(data => {
                 this.table = data;

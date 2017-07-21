@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Authenticator } from './shared/authenticator.service';
+import { Authenticator } from './shared/auth/authenticator.service';
 
 @Component({
     selector: 'my-app',
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-    isAuthenticated: boolean;
+    authenticated: boolean;
     constructor(private authenticator: Authenticator) { }
 
     ngOnInit() {
-        this.isAuthenticated = !!this.authenticator.userAuthenticated;
-        this.authenticator.isAuthenticated().subscribe((isAuth) => this.isAuthenticated = isAuth);
+        this.authenticated = this.authenticator.authenticated;
+        this.authenticator.isAuthenticated()
+            .subscribe((authenticated) => this.authenticated = authenticated);
     }
 }

@@ -1,47 +1,78 @@
-import { Injectable }      from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { ISubscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscriber } from 'rxjs/Subscriber';
 
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/toPromise'
-
-import { User } from './user.model';
-import { TokenModel } from './token.model';
+import { AuthResultModel } from './auth-result.model';
 import { NewPasswordModel } from './newpass.model';
 
 import { ConfigService } from '../config.service';
 
 @Injectable()
 export class Authenticator {
-    private authUrl:string = 'auth';
-    private userObservable: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-    public redirectUrl: string = '';
+    public redirectUrl: string;
+    private _authUrl: string;
+    private _model: AuthResultModel;
+    private _authenticated: ISubscription;
+    private _authObservers: Subscriber<any>[];
+    private _modelObservers: Subscriber<any>[];
 
     constructor(private http: HttpClient, private config: ConfigService) {
-        let storage = localStorage.getItem('user');
-        if(storage) {
-            let user = JSON.parse(storage) as User;
-            this.userObservable.next(user);
-        }
+        this._model = JSON.parse(localStorage.getItem('user') || "null");
+        this._authObservers = [];
+        this._modelObservers = [];
     }
 
-    get userAuthenticated(): User {
-        return this.userObservable.getValue();
+    get authenticated(): boolean {
+        return !!this._model;
     }
 
-    getAuthenticatedUser(): Observable<User> {
-        return this.userObservable.asObservable();
+    get session(): AuthResultModel {
+        return this._model;
     }
 
     isAuthenticated(): Observable<boolean> {
-        return this.userObservable.asObservable().map(user => !!user);
+        return new Observable(observer => {
+            this._authObservers.push(observer);
+        });
     }
 
-    authenticate(login: string, pass: string): Observable<TokenModel> {
-        const body = JSON.stringify({ login: login, password: pass });
-        return this.http.post<TokenModel>(`${this.config.baseUrl}/api/authenticate`, body);
+    userAuthenticated(): Observable<AuthResultModel> {
+        return new Observable(observer => {
+            this._modelObservers.push(observer);
+        });
+    }
+
+    setModel(model: AuthResultModel) {
+        this._model = model;
+        if(model) localStorage.setItem('user', JSON.stringify(model));
+        else localStorage.removeItem('user');
+        this._modelObservers.forEach(observer => observer.next(model));
+    }
+
+    clearSession() {
+        this._authObservers.forEach(observer => observer.next(false));
+        this.setModel(null);
+        if(this._authenticated)
+            this._authenticated.unsubscribe();
+    }
+
+    authenticate(login: string, pass: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const body = { login: login, password: pass };
+            this._authenticated = this.http.post<AuthResultModel>(`${this.config.baseUrl}/api/authenticate`, body)
+                .subscribe(model => {
+                    this.setModel(model);
+                    this._authObservers.forEach(observer => observer.next(true));
+                    resolve();
+                },
+                res => {
+                    this. clearSession();
+                    reject(res.error);
+                });
+        });
     }
 
     requestRecoverPass(email: string): Promise<string> {
@@ -55,15 +86,15 @@ export class Authenticator {
     }
 
     checkRecoverPassCode(code: string): Promise<string> {
+        //not implemented
         return new Promise((resolve, reject) => {
-            if(code.length <= 2) return reject({ code: 1, message: "Recover code invalid or expired!" });
+            if (code.length <= 2) return reject({ code: 1, message: "Recover code invalid or expired!" });
             return resolve('User Name');
         });
     }
 
     logOut(): Promise<void> {
-        this.userObservable.next(null);
-        localStorage.setItem('user', null);
+        this.clearSession();
         return Promise.resolve();
     }
 }

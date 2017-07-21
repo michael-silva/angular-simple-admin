@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { DatatableComponent } from '../shared/datatable/datatable.component';
 import { ColumnComponent } from '../shared/datatable/column.component';
 import { TabsComponent } from '../shared/tabs/tabs.component';
 import { TabComponent } from '../shared/tabs/tab.component';
+import { Authenticator } from '../shared/auth/authenticator.service';
 
-import { Authenticator } from '../shared/authenticator.service';
 import { UserService } from './shared/user.service';
 import { UsersRoutingModule } from './users.routing';
 
@@ -23,7 +23,7 @@ import { UserTabFormComponent } from './user-tabform/user-tabform.component';
     imports: [
         CommonModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         UsersRoutingModule
     ],
     declarations: [

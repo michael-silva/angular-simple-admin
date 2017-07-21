@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { NewPasswordModel } from '../shared/newpass.model';
-import { Authenticator } from '../../shared/authenticator.service';
+import { NewPasswordModel } from '../../shared/auth/newpass.model';
+import { Authenticator } from '../../shared/auth/authenticator.service';
 
 @Component({
     templateUrl: './recover-pass.component.html'

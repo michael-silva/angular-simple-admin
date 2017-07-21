@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Authenticator } from '../../shared/authenticator.service';
+import { Authenticator } from '../../shared/auth/authenticator.service';
 
 @Component({
     selector: 'forgot-pass',
@@ -18,7 +18,8 @@ export class ForgotPassComponent {
             .then((msg) => {
                 this.successMessage = msg;
                 this.email = "";
-            }).catch(error => {
+            })
+            .catch(error => {
                 this.errorMessage = error.message;
             })
     }

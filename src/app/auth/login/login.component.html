@@ -1,11 +1,11 @@
 <div class="login-form">
     <p class="title">Please sign in to access the system</p>
     <form [formGroup]="loginForm" novalidate (ngSubmit)="doLogin(loginForm.value)">
-        <div class="form-group" [ngClass]="{ 'has-danger': showError('login') }">
+        <div class="form-group" [class.has-danger]="showError('login')">
             <label for="login">login or email</label>
             <input type="text" id="login" name="login" formControlName="login" class="form-control" placeholder="login/email" required autofocus>
         </div>
-        <div class="form-group" [ngClass]="{ 'has-danger': showError('password') }">
+        <div class="form-group" [class.has-danger]="showError('password')">
             <label for="password">your password</label>
             <input type="password" id="password" name="password" formControlName="password" class="form-control" placeholder="********" required>
         </div>

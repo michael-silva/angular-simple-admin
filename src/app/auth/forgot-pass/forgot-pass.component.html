@@ -1,7 +1,6 @@
-<div class="card card-block forgot-pass">
-    <h3>Forgot your pass?</h3>
-    <hr>
-    <form (submit)="requestRecover()">
+<div class="forgot-pass">
+    <p class="title">Forgot your pass?</p>
+    <form (ngSubmit)="requestRecover()">
         <div class="form-group" [class.has-danger]="emailInput.invalid && emailInput.touched">
             <label for="email">What's your email?</label>
             <div class="input-group">

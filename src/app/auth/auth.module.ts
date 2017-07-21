@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { SharedModule } from '../shared/shared.module';
 import { AuthComponent } from './auth.component';
 import { AuthRoutingModule } from './auth.routing';
 import { LoginComponent } from './login/login.component';
@@ -17,7 +16,6 @@ import { RecoverPassComponent } from './recover-pass/recover-pass.component';
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        SharedModule,
         AuthRoutingModule
     ],
     declarations: [

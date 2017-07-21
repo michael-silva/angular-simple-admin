@@ -1,16 +1,12 @@
-<div class="card card-block recover-pass">
-    <h3>{{userName}}</h3>
-    <hr>
+<div class="recover-pass">
+    <p class="title">{{userName}}, please enter with a new password</p>
     <div class="alert alert-danger" *ngIf="invalidCodeMessage">{{invalidCodeMessage}}</div>
     <form [hidden]="invalidCodeMessage" (submit)="saveNewPassword()">
-        <div class="form-group">
-            <h4 class="form-title">Enter with a new password</h4>
-        </div>
-        <div class="form-group" [ngClass]="{ 'has-danger': pass.invalid && pass.touched }">
+        <div class="form-group" [class.has-danger]="pass.invalid && pass.touched">
             <label for="password">New Password</label>
             <input type="password" id="password" name="password" #pass="ngModel" [(ngModel)]="model.password" class="form-control" placeholder="Password" required minlength="6">
         </div>
-        <div class="form-group" [ngClass]="{ 'has-danger': conf.invalid && conf.touched }">
+        <div class="form-group" [class.has-danger]="conf.invalid && conf.touched">
             <label for="confirm">Confirm Password</label>
             <input type="password" id="confirm" name="confirm" #conf="ngModel" [(ngModel)]="model.confirm" class="form-control" placeholder="Confirm Password" required >
         </div>

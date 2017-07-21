@@ -10,12 +10,20 @@ import { Authenticator } from './authenticator.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-    private authRoute: string = "/auth";
+    private _authRoute: string = "/auth";
+    private _redirectRoute: string = "";
+    private _authenticated: boolean;
 
-    constructor(private authenticator: Authenticator, private router: Router) { }
+    constructor(private authenticator: Authenticator, private router: Router) {
+        this._authenticated = this.authenticator.authenticated;
+        this.authenticator.isAuthenticated()
+            .subscribe(authenticated => {
+                this._authenticated = authenticated;
+            })
+    }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if (!!this.authenticator.userAuthenticated) return true;
+        if (this._authenticated) return true;
 
         this.redirectAuth(state.url);
 
@@ -28,13 +36,13 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
     canLoad(route: Route): boolean {
         let url = `/${route.path}`;
-        let isAuth = !!this.authenticator.userAuthenticated;
+        let isAuth = this._authenticated;
 
-        if (!isAuth && url !== this.authRoute) {
+        if (!isAuth && url !== this._authRoute) {
             this.redirectAuth(url);
             return false;
         }
-        else if (isAuth && url === this.authRoute) {
+        else if (isAuth && url === this._authRoute) {
             this.router.navigate(['/']);
             return false;
         }
@@ -42,7 +50,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     }
 
     redirectAuth(url: string) {
-        this.authenticator.redirectUrl = url;
-        this.router.navigate([this.authRoute]);
+        this._redirectRoute = url;
+        this.router.navigate([this._authRoute]);
     }
 }

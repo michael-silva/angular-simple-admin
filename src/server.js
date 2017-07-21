@@ -62,7 +62,7 @@ app.use(function (req, res, next) {
 app.route('/api/authenticate')
     .post(function (req, res) {
         //mocked user
-        const user = { login: req.body.login, password: req.body.password, name: 'Username' };
+        const user = { login: req.body.login, password: req.body.password };
 
         //validation of mocked user
         if (user.login !== "admin" || user.password !== "123456")
@@ -71,11 +71,11 @@ app.route('/api/authenticate')
             // if user is found and password is right
             // create a token
             var token = jwt.sign(user, app.get('superSecret'), {
-                expiresInMinutes: 1440 // expires in 24 hours
+                expiresIn: "1d"
             });
 
             // return the information including token as JSON
-            res.json({ token: token });
+            res.json({ token: token, name: 'Username' });
         }
     });
 

@@ -13,7 +13,7 @@ export class TabsComponent implements AfterViewInit {
     constructor(private route: ActivatedRoute) { }
 
     ngAfterViewInit() {
-        this.route.fragment.map(fragment => fragment)
+        this.route.fragment
             .subscribe((fragment) => {
                 let tab = this.tabs.find(x => x.id == fragment);
                 if(tab) this.selectTab(tab)

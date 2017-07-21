@@ -34,17 +34,17 @@
             </tr>
         </thead>
         <tbody>
-            <template ngFor [ngForOf]="table.data" let-row>
+            <ng-template ngFor [ngForOf]="table.data" let-row>
                 <tr (click)="toggleSelect(row)">
                     <th *ngIf="table.selectable">
                         <input type="checkbox" [attr.disabled]="row.disableCheck" [(ngModel)]="row.selected">
                     </th>
                     <th *ngIf="itemTemplate">
-                        <template [ngOutletContext]="{ 'row': row }" [ngTemplateOutlet]="itemTemplate"></template>
+                        <ng-template [ngOutletContext]="{ 'row': row }" [ngTemplateOutlet]="itemTemplate"></ng-template>
                     </th>
                     <td *ngFor="let col of columns" [class.hidden-xs-up]="!col.visible">{{row[col.data]}}</td>
                 </tr>
-            </template>
+            </ng-template>
         </tbody>
     </table>
 </div>

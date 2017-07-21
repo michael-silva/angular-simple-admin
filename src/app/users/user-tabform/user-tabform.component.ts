@@ -16,12 +16,10 @@ export class UserTabFormComponent implements OnInit {
         private userService: UserService) { }
 
     ngOnInit() {
-        this.route.params
-            .map(params => +params['id'])
-            .subscribe((id) => {
+        this.route.params.subscribe(params => {
                 this.userService
-                .getUser(id)
-                .then(user => this.user = user);
+                    .getUser(+params['id'])
+                    .then(user => this.user = user);
             });
     }
 }

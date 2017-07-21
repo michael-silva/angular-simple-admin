@@ -5,7 +5,7 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 
 import { HomeComponent } from './home/home.component';
 import { HelpComponent } from './help/help.component';
-import { AuthGuard } from './shared/auth-guard.service';
+import { AuthGuard } from './shared/auth/auth-guard.service';
 
 const ROUTES: Routes = [{
     path: '',

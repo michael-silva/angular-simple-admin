@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 import { AuthModel } from '../shared/auth.model';
 
-import { Authenticator } from '../../shared/authenticator.service';
+import { Authenticator } from '../../shared/auth/authenticator.service';
 
 @Component({
     selector: 'login',
@@ -44,10 +44,10 @@ export class LoginComponent {
         this.formErrors = [];
         this.authenticator.authenticate(model.login, model.password)
             .then((data) => {
-                debugger
-                this.router.navigate([this.authenticator.redirectUrl]);
-            }).catch(error => {
-                this.formErrors.push(error.message);
+                this.router.navigate([this.authenticator.redirectUrl || '/home']);
+            })
+            .catch(error => {
+                this.formErrors.push(error.errors);
             });
     }
 }

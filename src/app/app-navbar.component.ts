@@ -1,26 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Authenticator } from './shared/authenticator.service';
+import { Authenticator } from './shared/auth/authenticator.service';
 import { DialogService } from './shared/dialog.service';
-import { User } from './users/shared/user.model';
+import { AuthResultModel } from './shared/auth/auth-result.model';
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './app-navbar.component.html'
 })
 export class AppNavbarComponent implements OnInit {
-    user: User;
+    public authModel: AuthResultModel;
+
     constructor(
         private authenticator: Authenticator,
         private dialogService: DialogService,
         private router: Router) { }
 
     ngOnInit() {
-        this.user = this.authenticator.userAuthenticated;
-
-        this.authenticator.getAuthenticatedUser()
-            .subscribe((user) => this.user = user);
+        this.authModel = this.authenticator.session;
+        this.authenticator.userAuthenticated().subscribe((model) => this.authModel = model);
     }
 
     logOut() {
