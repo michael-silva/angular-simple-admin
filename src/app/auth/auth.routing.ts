@@ -1,4 +1,4 @@
-import { ModuleWithProviders }  from '@angular/core';
+import { NgModule }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthComponent }      from './auth.component';
@@ -12,15 +12,19 @@ const ROUTES: Routes = [{
         children: [{
                 path: '',
                 component: LoginComponent
-            }, 
+            },
             {
                 path: 'forgot-pass',
                 component: ForgotPassComponent
-            }, 
+            },
             {
                 path: 'recover-pass/:code',
                 component: RecoverPassComponent
             }]
 }];
 
-export const authRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+@NgModule({
+    imports: [RouterModule.forChild(ROUTES)],
+    exports: [RouterModule]
+})
+export class AuthRoutingModule { }

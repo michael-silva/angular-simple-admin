@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app.routing';
 
@@ -10,16 +10,14 @@ import { HomeComponent } from './home/home.component';
 import { HelpComponent } from './help/help.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 
-import { Authenticator } from './shared/authenticator.service';
-import { DialogService } from './shared/dialog.service';
-import { ConfigService } from './shared/config.service';
-import { AuthGuard } from './shared/auth-guard.service';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     imports: [
         BrowserModule,
-        HttpModule,
-        AppRoutingModule
+        HttpClientModule,
+        SharedModule,
+        AppRoutingModule,
     ],
     declarations: [
         AppComponent,
@@ -27,12 +25,6 @@ import { AuthGuard } from './shared/auth-guard.service';
         HomeComponent,
         HelpComponent,
         NotFoundComponent
-    ],
-    providers: [
-        ConfigService,
-        DialogService,
-        Authenticator,
-        AuthGuard
     ],
     bootstrap: [AppComponent]
 })

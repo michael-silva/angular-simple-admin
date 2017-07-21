@@ -1,5 +1,5 @@
 import { Injectable }      from '@angular/core';
-import { Headers, RequestOptions, Http }      from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -7,10 +7,11 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise'
 
-import { User } from '../users/shared/user.model';
-import { NewPasswordModel } from '../auth/shared/newpass.model';
+import { User } from './user.model';
+import { TokenModel } from './token.model';
+import { NewPasswordModel } from './newpass.model';
 
-import { ConfigService } from '../shared/config.service';
+import { ConfigService } from '../config.service';
 
 @Injectable()
 export class Authenticator {
@@ -18,14 +19,14 @@ export class Authenticator {
     private userObservable: BehaviorSubject<User> = new BehaviorSubject<User>(null);
     public redirectUrl: string = '';
 
-    constructor(private http: Http, private config: ConfigService) {
+    constructor(private http: HttpClient, private config: ConfigService) {
         let storage = localStorage.getItem('user');
         if(storage) {
             let user = JSON.parse(storage) as User;
             this.userObservable.next(user);
         }
     }
-    
+
     get userAuthenticated(): User {
         return this.userObservable.getValue();
     }
@@ -38,35 +39,26 @@ export class Authenticator {
         return this.userObservable.asObservable().map(user => !!user);
     }
 
-    authenticate(login: string, pass: string): Promise<User> {
-        return new Promise((resolve, reject) => {
-            let mock = { login: 'admin', pass: '123456' };
-            if (mock.login == login && mock.pass == pass) {
-                let user = { name: 'User Name' } as User;
-                this.userObservable.next(user);
-                localStorage.setItem('user', JSON.stringify(user));
-                return resolve(user);
-            }
-            else return reject({ code: 1, message: "User and/or Password are invalids"});
-        });
+    authenticate(login: string, pass: string): Observable<TokenModel> {
+        const body = JSON.stringify({ login: login, password: pass });
+        return this.http.post<TokenModel>(`${this.config.baseUrl}/api/authenticate`, body);
     }
 
     requestRecoverPass(email: string): Promise<string> {
+        //not implemented
         return Promise.resolve("A recover password link was sent to your email.");
     }
 
     changePassword(model: NewPasswordModel): Promise<string> {
-        let user = { name: 'User Name' } as User;
-        this.userObservable.next(user);
-        
+        //not implemented
         return Promise.resolve("Your new password has been saved with success");
     }
-    
+
     checkRecoverPassCode(code: string): Promise<string> {
         return new Promise((resolve, reject) => {
             if(code.length <= 2) return reject({ code: 1, message: "Recover code invalid or expired!" });
             return resolve('User Name');
-        });            
+        });
     }
 
     logOut(): Promise<void> {

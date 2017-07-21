@@ -1,26 +1,30 @@
-import { NgModule }       from '@angular/core';
-import { CommonModule }   from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { FormsModule }    from '@angular/forms';
-import { HttpModule }    from '@angular/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
-import { Authenticator }      from '../shared/authenticator.service';
-import { AuthComponent }      from './auth.component';
-import { authRouting } from './auth.routing';
-import { LoginComponent }      from './login/login.component';
-import { ForgotPassComponent }      from './forgot-pass/forgot-pass.component';
-import { RecoverPassComponent }      from './recover-pass/recover-pass.component';
+import { SharedModule } from '../shared/shared.module';
+import { AuthComponent } from './auth.component';
+import { AuthRoutingModule } from './auth.routing';
+import { LoginComponent } from './login/login.component';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { RecoverPassComponent } from './recover-pass/recover-pass.component';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        HttpModule,
-        authRouting],
+        ReactiveFormsModule,
+        HttpClientModule,
+        SharedModule,
+        AuthRoutingModule
+    ],
     declarations: [
         AuthComponent,
         LoginComponent,
         ForgotPassComponent,
-        RecoverPassComponent]
+        RecoverPassComponent
+    ]
 })
 export class AuthModule { }

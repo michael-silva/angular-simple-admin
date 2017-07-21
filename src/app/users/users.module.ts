@@ -1,17 +1,17 @@
-import { NgModule }       from '@angular/core';
-import { CommonModule }   from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { FormsModule }    from '@angular/forms';
-import { HttpModule }    from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
-import { DatatableComponent }  from '../shared/datatable/datatable.component';
-import { ColumnComponent }  from '../shared/datatable/column.component';
-import { TabsComponent }  from '../shared/tabs/tabs.component';
-import { TabComponent }  from '../shared/tabs/tab.component';
+import { DatatableComponent } from '../shared/datatable/datatable.component';
+import { ColumnComponent } from '../shared/datatable/column.component';
+import { TabsComponent } from '../shared/tabs/tabs.component';
+import { TabComponent } from '../shared/tabs/tab.component';
 
 import { Authenticator } from '../shared/authenticator.service';
 import { UserService } from './shared/user.service';
-import { usersRouting } from './users.routing';
+import { UsersRoutingModule } from './users.routing';
 
 import { UsersComponent } from './users.component';
 import { UserListComponent } from './user-list/user-list.component';
@@ -24,7 +24,8 @@ import { UserTabFormComponent } from './user-tabform/user-tabform.component';
         CommonModule,
         FormsModule,
         HttpModule,
-        usersRouting],
+        UsersRoutingModule
+    ],
     declarations: [
         TabsComponent,
         TabComponent,
@@ -34,7 +35,8 @@ import { UserTabFormComponent } from './user-tabform/user-tabform.component';
         UserListComponent,
         UserProfileComponent,
         UserTabFormComponent,
-        UserWizzardComponent],
+        UserWizzardComponent
+    ],
     providers: [UserService]
 })
 export class UsersModule { }

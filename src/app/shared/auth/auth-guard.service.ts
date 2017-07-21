@@ -1,16 +1,16 @@
-import { Injectable }       from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
     CanActivate, CanLoad, Router, Route,
     ActivatedRouteSnapshot,
     RouterStateSnapshot,
     CanActivateChild,
     NavigationExtras
-}                           from '@angular/router';
-import { Authenticator }      from './authenticator.service';
+} from '@angular/router';
+import { Authenticator } from './authenticator.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-    private authRoute: string = "/login";
+    private authRoute: string = "/auth";
 
     constructor(private authenticator: Authenticator, private router: Router) { }
 
@@ -30,11 +30,11 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
         let url = `/${route.path}`;
         let isAuth = !!this.authenticator.userAuthenticated;
 
-        if(!isAuth  && url !== this.authRoute) {
+        if (!isAuth && url !== this.authRoute) {
             this.redirectAuth(url);
             return false;
         }
-        else if(isAuth && url === this.authRoute) {
+        else if (isAuth && url === this.authRoute) {
             this.router.navigate(['/']);
             return false;
         }

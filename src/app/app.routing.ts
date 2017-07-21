@@ -9,6 +9,11 @@ import { AuthGuard } from './shared/auth-guard.service';
 
 const ROUTES: Routes = [{
     path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
+},
+{
+    path: '',
     canActivateChild: [AuthGuard],
     children: [{
         path: 'home',
@@ -25,11 +30,10 @@ const ROUTES: Routes = [{
     }]
 },
 {
-    path: 'login',
+    path: 'auth',
     loadChildren: 'app/auth/auth.module#AuthModule',
     canLoad: [AuthGuard]
 },
-{ path: '', redirectTo: '/home', pathMatch: 'full' },
 { path: '**', component: NotFoundComponent }
 ];
 
