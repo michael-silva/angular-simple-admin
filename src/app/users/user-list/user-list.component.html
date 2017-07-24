@@ -2,9 +2,9 @@
     <h4>Users Management</h4>
     <hr>
 </div>
-<datatable url="api/table">
+<datatable url="{{url}}">
     <ng-template let-row="row">
-        <div class="btn-group btn-block text-xs-center" [class.open]="row.actionsOppened">
+        <div class="btn-group btn-block text-xs-center" [class.show]="row.actionsOppened">
             <a class="btn" (click)="row.actionsOppened = !row.actionsOppened; $event.stopPropagation()"><i class="fa fa-bars"></i></a>
             <div class="dropdown-menu p-a-0" (mouseleave)="row.actionsOppened = false" >
                 <a class="list-group-item" [routerLink]="'./'+row.id">Edit</a>

@@ -6,4 +6,6 @@ import { DatatableComponent }  from '../../shared/datatable/datatable.component'
     selector: 'user-list',
     templateUrl: './user-list.component.html'
 })
-export class UserListComponent { }
+export class UserListComponent { 
+    url: string = "http://localhost:3000/api/users/table"
+}

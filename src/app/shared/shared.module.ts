@@ -11,6 +11,7 @@ import { ConfigService } from './config.service';
 import { DclWrapper } from './component-outlet.directive';
 import { AuthGuard } from './auth/auth-guard.service';
 import { AuthResultModel } from './auth/auth-result.model';
+import { AuthHttpInterceptor } from './auth/auth-http.interceptor'
 
 @NgModule({
     imports: [

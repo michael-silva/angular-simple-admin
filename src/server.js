@@ -1,9 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 
 const app = express();
-app.set('superSecret', 'superSecret')
+app.set('superSecret', 'superSecret');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -18,11 +19,11 @@ const types = ['Admin', 'Simple', 'Finance', 'Marketing', 'Logistic'];
 
 
 let USERS = [
-    { id: 11, name: 'Admin User', password: '123456', login: 'admin', token: 'secret-token' },
-    { id: 12, name: 'Simple User', password: '123456', login: 'simple', token: 'secret-token' },
-    { id: 13, name: 'User', password: '123456', login: 'user', token: 'secret-token' },
+    { id: 1, name: 'Admin User', password: '123456', login: 'admin', token: 'secret-token' },
+    { id: 2, name: 'Simple User', password: '123456', login: 'simple', token: 'secret-token' },
+    { id: 3, name: 'User', password: '123456', login: 'user', token: 'secret-token' },
 ];
-for (let i = 0; i < 100; i++) {
+for (let i = 4; i < 100; i++) {
     USERS.push({
         id: i + 1,
         name: names[rand(1, names.length)] + ' ' + lastnames[rand(1, lastnames.length)],
@@ -36,28 +37,7 @@ for (let i = 0; i < 100; i++) {
     });
 }
 
-let table = [];
-let lengths = [50, 25, 15];
-for (let i = 10; i < USERS.length; i += lengths.pop()) {
-    for (let j = 0; j < USERS.length / i; j++) {
-        table.push({
-            selectable: true,
-            page: j,
-            length: i,
-            total: USERS.length,
-            columns: fields,
-            data: USERS.slice(j * i, j * i + i)
-        });
-    }
-}
-
-
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-});
+app.use(cors());
 
 app.route('/api/authenticate')
     .post(function (req, res) {
@@ -81,39 +61,20 @@ app.route('/api/authenticate')
 
 const router = express.Router();
 
-router.use(function (req, res, next) {
-    // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-    // decode token
-    if (token) {
-        // verifies secret and checks exp
-        jwt.verify(token, app.get('superSecret'), function (err, decoded) {
-            if (err) {
-                return res.json({ success: false, message: 'Failed to authenticate token.' });
-            } else {
-                // if everything is good, save to request for use in other routes
-                req.decoded = decoded;
-                next();
-            }
-        });
-
-    }
-    else {
-        // if there is no token
-        // return an error
-        return res.status(403).send({
-            errors: [ 'No token provided.' ]
-        });
-
-    }
-});
-
-router.route('/table')
+router.route('/users/table')
     .get(function (req, res) {
-        const data = req.query.name ? USERS.filter(user => user.name.indexOf(req.query.name) >= 0) : USERS;
-        res.send({ data: table });
-    })
+        const table = {
+            selectable: true,
+            page: +req.query.page,
+            length: +req.query.length,
+            total: USERS.length,
+            columns: fields
+        };
+
+        var first = table.page * table.length;
+        table.data = USERS.slice(first, first + table.length);
+        res.send(table);
+    });
 
 router.route('/users')
     .get(function (req, res) {
@@ -149,7 +110,35 @@ router.route('/users/:id')
         }
     });
 
-app.use('api', router);
+function authenticate(req, res, next) {
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.query.token || req.headers.authorization;
+
+    // decode token
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, app.get('superSecret'), function (err, decoded) {
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;
+                next();
+            }
+        });
+
+    }
+    else {
+        // if there is no token
+        // return an error
+        return res.status(403).send({
+            errors: ['No token provided.']
+        });
+
+    }
+}
+
+app.use('/api', authenticate, router);
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');

@@ -9,7 +9,7 @@ import { AppNavbarComponent } from './app-navbar.component';
 import { HomeComponent } from './home/home.component';
 import { HelpComponent } from './help/help.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
-
+import { AuthHttpInterceptor } from './shared/auth/auth-http.interceptor';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
